@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WpfApp1
+{
+    class MainWindowViewModel : INotifyPropertyChanged
+    {
+        private string _rutaDeLaImagen;
+
+        public string RutaDeLaImagen
+        {
+            get { return _rutaDeLaImagen; }
+            set
+            {
+                if (_rutaDeLaImagen != value)
+                {
+                    _rutaDeLaImagen = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}

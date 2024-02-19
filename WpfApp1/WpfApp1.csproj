@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Background.png" />
+    <None Remove="Book.png" />
+    <None Remove="Edit.png" />
+    <None Remove="End.png" />
+    <None Remove="NCommonNode.png" />
+    <None Remove="NEndNode.png" />
+    <None Remove="NSelectedCommonNode.gif" />
+    <None Remove="NSelectedEndNode.gif" />
+    <None Remove="Play.png" />
+    <None Remove="RamaV11.png" />
+    <None Remove="Resources\Background.png" />
+    <None Remove="Resources\background2K.png" />
+    <None Remove="Resources\Background3.png" />
+    <None Remove="Standard.png" />
+    <None Remove="Step.png" />
+    <None Remove="UserControls\Background2.png" />
+    <None Remove="UserControls\KnownNode.png" />
+    <None Remove="UserControls\Line.png" />
+    <None Remove="UserControls\Reset.png" />
+    <None Remove="UserControls\Return.png" />
+    <None Remove="UserControls\WayLine.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Background.png" />
+    <Resource Include="Resources\background2K.png" />
+    <Resource Include="Resources\Background3.png" />
+    <Resource Include="Resources\Book.png" />
+    <Resource Include="Resources\Edit.png" />
+    <Resource Include="Resources\End.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\NCommonNode.png" />
+    <Resource Include="Resources\NEndNode.png" />
+    <Resource Include="Resources\NSelectedCommonNode.gif" />
+    <Resource Include="Resources\NSelectedEndNode.gif" />
+    <Resource Include="Resources\Play.png" />
+    <Resource Include="Resources\Standard.png" />
+    <Resource Include="Resources\Step.png" />
+    <Resource Include="Resources\WayLine.png" />
+    <Resource Include="Resources\Line.png" />
+    <Resource Include="Resources\KnownNode.png" />
+    <Resource Include="Resources\Background2.png" />
+    <Resource Include="Resources\Reset.png" />
+  </ItemGroup>
+
+</Project>
