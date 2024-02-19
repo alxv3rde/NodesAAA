@@ -26,12 +26,15 @@
                             Height="25"
                             HorizontalAlignment="Right"
                             Style="{StaticResource closeButton}">
-                        <fa:IconImage Icon="times" Foreground="White" Width="17"/>
+                        <fa:IconImage Icon="times"
+                                      Foreground="White"
+                                      Width="17" />
                     </Button>
                     <fa:IconImage Icon="Terminal"
                                   HorizontalAlignment="Left"
                                   Width="18"
-                                  Height="18" Foreground="White"/>
+                                  Height="18"
+                                  Foreground="White" />
                 </Grid>
             </Border>
             <Border Grid.Row="1"
@@ -47,52 +50,14 @@
                     <Border BorderBrush="Black"
                             BorderThickness="1.5"
                             CornerRadius="5,0,0,5"
-                            Margin="5,5,0,5"
+                            Margin="5,8,0,5"
                             Background="#383840">
-                        <Grid Margin="5,10">
+                        <Grid Margin="5,5">
                             <StackPanel>
-                                <Button>
-                                    <Border Background="#5d5d5d"
-                                            CornerRadius="2">
-                                        <Grid Height="28"
-                                              Margin="4,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Orientation="Horizontal"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Center">
-                                                <Border Background="#383840"
-                                                        Width="20"
-                                                        Height="20"
-                                                        CornerRadius="2"
-                                                        Padding="3">
-                                                    <fa:IconImage Icon="VectorSquare"
-                                                                  Foreground="#ffb70b" />
-                                                </Border>
-                                                <Label Content="Default"
-                                                       Foreground="White"
-                                                       FontFamily="Cascadia Code"
-                                                       FontSize="17" />
-                                            </StackPanel>
-                                            <StackPanel Grid.Column="1"
-                                                        VerticalAlignment="Center"
-                                                        HorizontalAlignment="Right"
-                                                        Orientation="Horizontal">
-                                                <fa:IconImage Icon="PencilAlt"
-                                                              Width="15"
-                                                              Foreground="White"
-                                                              Margin="5" />
-                                                <fa:IconImage Icon="TrashAlt"
-                                                              Width="15"
-                                                              Foreground="White"
-                                                              Margin="5" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </Button>
-                                
+                               
+                                <local:UCSchemeButton />
+                                <local:UCSchemeButton />
+
                             </StackPanel>
                         </Grid>
                     </Border>
