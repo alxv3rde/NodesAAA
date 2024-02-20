@@ -52,12 +52,40 @@
                             CornerRadius="5,0,0,5"
                             Margin="5,8,0,5"
                             Background="#383840">
-                        <Grid Margin="5,5">
+                        <Grid Margin="5,10">
                             <StackPanel>
                                
                                 <local:UCSchemeButton />
                                 <local:UCSchemeButton />
-
+                                <Grid MouseEnter="Grid_MouseEnter"
+                                      MouseLeave="Grid_MouseLeave">
+                                    <Border x:Name="buttonBorder" Background="#383840"
+                                            CornerRadius="2">
+                                        <Grid Height="28"
+                                              Margin="4,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Horizontal"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center">
+                                                <Border Background="#383840"
+                                                        Width="20"
+                                                        Height="20"
+                                                        CornerRadius="2"
+                                                        Padding="3">
+                                                    <fa:IconImage Icon="Plus"
+                                                                  Foreground="White"/>
+                                                </Border>
+                                                <Label Content="New scheme"
+                                                       Foreground="White"
+                                                       FontFamily="Cascadia Code"
+                                                       FontSize="17" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
                             </StackPanel>
                         </Grid>
                     </Border>

@@ -611,8 +611,8 @@
                                     Canvas.Left="193"
                                     Height="32"
                                     Margin="11,0,0,0"
-                                    MouseDown="btnPlay_MouseDown"
-                                    RutaImagen="Bars" />
+                                    RutaImagen="Bars"
+                                    MouseDown="btnBars_MouseDown" />
                     <local:UCButton x:Name="btnPlay"
                                     Canvas.Left="193"
                                     Height="32"
@@ -624,7 +624,7 @@
                                     Height="32"
                                     Margin="11,0,0,0"
                                     MouseDown="btnEnd_MouseDown"
-                                    RutaImagen="stop"/>
+                                    RutaImagen="stop" />
                     <local:UCButton x:Name="btnReset"
                                     Canvas.Left="193"
                                     Height="32"
@@ -664,23 +664,18 @@
                                Padding="1"
                                FontFamily="Cascadia Code SemiLight"
                                Foreground="#FFEA753E"
-                               FontSize="14" HorizontalContentAlignment="Right" MinWidth="20"/>
+                               FontSize="14"
+                               HorizontalContentAlignment="Right"
+                               MinWidth="20" />
                     </StackPanel>
-                   
+
 
                 </StackPanel>
             </Grid>
 
 
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="609*" />
-                <ColumnDefinition Width="74*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid Grid.Row="1" x:Name="OverCanvas">
             <Grid.Background>
                 <ImageBrush ImageSource="/Resources/Background2k.png"
                             Stretch="None" />
@@ -691,6 +686,7 @@
                     Focusable="True"
                     MouseMove="c1_MouseMove"
                     Grid.ColumnSpan="2" />
+
         </Grid>
 
     </Grid>

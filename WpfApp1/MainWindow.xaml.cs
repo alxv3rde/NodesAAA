@@ -44,7 +44,6 @@ namespace WpfApp1
         private int i = 0;
         Control? _ActiveControl;
         Point point;
-        private bool maximized = false;
         bool isShiftActive = false;
 
         public static List<UserControl> uCBoxes = new List<UserControl>();
@@ -128,17 +127,17 @@ namespace WpfApp1
             }
             if (e.Key == Key.F11)
             {
-                if (maximized)
+                if (WindowState == WindowState.Maximized)
                 {
                     WindowState = WindowState.Normal;
                     WindowStyle = WindowStyle.SingleBorderWindow;
-                    maximized = false;
+                    Topmost = false;
                 }
                 else
                 {
                     WindowState = WindowState.Maximized;
                     WindowStyle = WindowStyle.None;
-                    maximized = true;
+                    Topmost = true;
 
                 }
 
@@ -396,6 +395,25 @@ namespace WpfApp1
                     }
                 }
             }
+        }
+
+        private void btnBars_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnBars_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UCSchemes uCSchemes = new UCSchemes();
+            uCBoxes.Add(uCSchemes);
+            c1.Children.Add(uCSchemes);
+            Canvas.SetLeft(uCSchemes, (c1.ActualWidth / 2) - 375);
+            Canvas.SetTop(uCSchemes, (c1.ActualHeight / 2 - 250));
+            Canvas.SetZIndex(uCSchemes, c1.Children.Count + 1);
+            n.MouseDown += N_MouseDown;
+            n.MouseMove += N_MouseMove;
+            n.MouseUp += N_MouseUp;
+            uCSchemes.grid
         }
     }
 }

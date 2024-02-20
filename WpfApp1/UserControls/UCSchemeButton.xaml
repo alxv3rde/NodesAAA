@@ -7,8 +7,9 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="38" d:DesignWidth="300">
-    <Grid >
-        <Border Background="#5d5d5d"
+    <Grid MouseEnter="Grid_MouseEnter"
+          MouseLeave="Grid_MouseLeave">
+        <Border x:Name="buttonBorder" Background="#383840"
                 CornerRadius="2">
             <Grid Height="28"
                   Margin="4,0">
@@ -39,11 +40,13 @@
                     <fa:IconImage Icon="PencilAlt"
                                   Width="12"
                                   Foreground="White"
-                                  Margin="5,0" />
+                                  Margin="5,0" 
+                                  Visibility="Hidden"/>
                     <fa:IconImage Icon="TrashAlt"
                                   Width="12"
                                   Foreground="White"
-                                  Margin="10,0,5,0" />
+                                  Margin="10,0,5,0" 
+                                  Visibility="Hidden"/>
                 </StackPanel>
             </Grid>
         </Border>
