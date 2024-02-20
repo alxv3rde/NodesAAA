@@ -34,5 +34,10 @@ namespace WpfApp1.UserControls
         {
             buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
         }
+
+        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.
+        }
     }
 }

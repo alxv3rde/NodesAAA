@@ -410,10 +410,6 @@ namespace WpfApp1
             Canvas.SetLeft(uCSchemes, (c1.ActualWidth / 2) - 375);
             Canvas.SetTop(uCSchemes, (c1.ActualHeight / 2 - 250));
             Canvas.SetZIndex(uCSchemes, c1.Children.Count + 1);
-            n.MouseDown += N_MouseDown;
-            n.MouseMove += N_MouseMove;
-            n.MouseUp += N_MouseUp;
-            uCSchemes.grid
         }
     }
 }

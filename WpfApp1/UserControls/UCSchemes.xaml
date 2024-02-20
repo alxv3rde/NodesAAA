@@ -25,7 +25,8 @@
                     <Button Width="25"
                             Height="25"
                             HorizontalAlignment="Right"
-                            Style="{StaticResource closeButton}">
+                            Style="{StaticResource closeButton}"
+                            MouseDown="Button_MouseDown">
                         <fa:IconImage Icon="times"
                                       Foreground="White"
                                       Width="17" />
