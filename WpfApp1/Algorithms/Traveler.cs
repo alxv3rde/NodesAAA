@@ -81,14 +81,11 @@ namespace WpfApp1.Algorithms
             List<UCLine> l = new List<UCLine>();
             int weight = 0;
 
-            // Verifica la conexión entre el nodo inicial y el primer nodo permutado
             var firstConnection = _Lines.Find(x => x.ExistsConection(sNode, _Nodes.Find(y => y.GetName == permutation[0])));
             if (firstConnection != null)
             {
                 l.Add(firstConnection);
                 weight += firstConnection.GetLineValue;
-
-                // Verifica las conexiones entre nodos permutados
                 for (int i = 1; i < permutation.Count; i++)
                 {
                     var connection = _Lines.Find(x => x.ExistsConection(_Nodes.Find(y => y.GetName == permutation[i - 1]), _Nodes.Find(y => y.GetName == permutation[i])));
@@ -99,13 +96,9 @@ namespace WpfApp1.Algorithms
                     }
                     else
                     {
-                        // Si no hay conexión, puedes manejar esto según tus necesidades (por ejemplo, lanzar una excepción, ignorar, etc.).
-                        // Aquí simplemente detenemos el proceso y no agregamos la permutación.
                         return;
                     }
                 }
-
-                // Verifica la conexión entre el último nodo permutado y el nodo inicial
                 var lastConnection = _Lines.Find(x => x.ExistsConection(_Nodes.Find(y => y.GetName == permutation[permutation.Count - 1]), sNode));
                 if (lastConnection != null)
                 {
@@ -114,7 +107,6 @@ namespace WpfApp1.Algorithms
                 }
                 else
                 {
-                    // Similar al caso anterior, puedes manejar la falta de conexión según tus necesidades.
                     return;
                 }
 

@@ -14,19 +14,23 @@
                 <RowDefinition Height="40" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0"
+            <Border Grid.Row="0" x:Name="Topbar"
                     BorderBrush="#181819"
                     BorderThickness="1.5,1.5,1.5,0"
                     CornerRadius="10,10,0,0"
-                    Background="#3d4980">
+                    Background="#3d4980"
+                    MouseDown="Border_MouseDown"
+                    MouseMove="Border_MouseMove"
+                    MouseUp="Border_MouseUp">
                 <Grid HorizontalAlignment="Stretch"
                       VerticalAlignment="Center"
                       Margin="10,0,5,0">
-                    <Button Width="25"
+                    <Button Width="25" x:Name="btnClose"
                             Height="25"
                             HorizontalAlignment="Right"
                             Style="{StaticResource closeButton}"
-                            MouseDown="Button_MouseDown">
+                            MouseDown="btnClose_MouseDown"
+                            Click="btnClose_Click">
                         <fa:IconImage Icon="times"
                                       Foreground="White"
                                       Width="17" />

@@ -587,6 +587,24 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Resources/Background2k.png"
+                            Stretch="None" />
+            </Grid.Background>
+            <Canvas x:Name="c1"
+                    MouseDown="c1_MouseDown"
+                    Background="Transparent"
+                    Focusable="True"
+                    MouseMove="c1_MouseMove"
+                    Grid.ColumnSpan="2" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Canvas x:Name="OverCanva">
+
+            </Canvas>
+        </Grid>
         <Grid x:Name="gridPanel"
               Height="49"
               Background="#FF2E2B3C"
@@ -673,19 +691,6 @@
                 </StackPanel>
             </Grid>
 
-
-        </Grid>
-        <Grid Grid.Row="1" x:Name="OverCanvas">
-            <Grid.Background>
-                <ImageBrush ImageSource="/Resources/Background2k.png"
-                            Stretch="None" />
-            </Grid.Background>
-            <Canvas x:Name="c1"
-                    MouseDown="c1_MouseDown"
-                    Background="Transparent"
-                    Focusable="True"
-                    MouseMove="c1_MouseMove"
-                    Grid.ColumnSpan="2" />
 
         </Grid>
 

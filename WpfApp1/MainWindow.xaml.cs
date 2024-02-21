@@ -39,7 +39,6 @@ namespace WpfApp1
 
         }
         public static UCButton? LastButton { get; set; }
-        int lastIndex = 0;
         private int count = -1;
         private int i = 0;
         Control? _ActiveControl;
@@ -405,11 +404,10 @@ namespace WpfApp1
         private void btnBars_MouseDown(object sender, MouseButtonEventArgs e)
         {
             UCSchemes uCSchemes = new UCSchemes();
-            uCBoxes.Add(uCSchemes);
-            c1.Children.Add(uCSchemes);
-            Canvas.SetLeft(uCSchemes, (c1.ActualWidth / 2) - 375);
-            Canvas.SetTop(uCSchemes, (c1.ActualHeight / 2 - 250));
-            Canvas.SetZIndex(uCSchemes, c1.Children.Count + 1);
+            OverCanva.Children.Add(uCSchemes);
+            Canvas.SetLeft(uCSchemes, c1.ActualWidth / 2 - 375);
+            Canvas.SetTop(uCSchemes, OverCanva.ActualHeight / 2 - 250);
+            Canvas.SetZIndex(uCSchemes, OverCanva.Children.Count + 1);
         }
     }
 }
