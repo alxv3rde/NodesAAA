@@ -12,7 +12,12 @@
         Width="1366"
         ResizeMode="CanResize"
         xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        Loaded="Window_Loaded"
+        MouseDown="Window_MouseDown"
+        MouseUp="Window_MouseUp"
+        MouseMove="Window_MouseMove"
+        SizeChanged="Window_SizeChanged_1">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -586,25 +591,6 @@
             <RowDefinition Height="49" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        
-        <Grid Grid.Row="1">
-            <Grid.Background>
-                <ImageBrush ImageSource="/Resources/Background2k.png"
-                            Stretch="None" />
-            </Grid.Background>
-            <Canvas x:Name="c1"
-                    MouseDown="c1_MouseDown"
-                    Background="Transparent"
-                    Focusable="True"
-                    MouseMove="c1_MouseMove"
-                    Grid.ColumnSpan="2" />
-        </Grid>
-        <Grid Grid.Row="1">
-            <Canvas x:Name="OverCanva">
-
-            </Canvas>
-        </Grid>
         <Grid x:Name="gridPanel"
               Height="49"
               Background="#FF2E2B3C"
@@ -627,28 +613,22 @@
                             Orientation="Horizontal">
                     <local:UCButton x:Name="btnBars"
                                     Canvas.Left="193"
-                                    Height="32"
-                                    Margin="11,0,0,0"
+                                    Height="35"
+                                    Margin="4,0,0,0"
                                     RutaImagen="Bars"
                                     MouseDown="btnBars_MouseDown" />
-                    <local:UCButton x:Name="btnPlay"
+                    <local:UCButton x:Name="btnAdyacencia"
                                     Canvas.Left="193"
-                                    Height="32"
-                                    Margin="11,0,0,0"
-                                    MouseDown="btnPlay_MouseDown"
-                                    RutaImagen="Play" />
-                    <local:UCButton x:Name="btnEnd"
+                                    Height="35"
+                                    Margin="4,0,0,0"
+                                    MouseDown="btnAdyacencia_MouseDown"
+                                    RutaImagen="scroll" />
+                    <local:UCButton x:Name="btnSchemas"
                                     Canvas.Left="193"
-                                    Height="32"
-                                    Margin="11,0,0,0"
-                                    MouseDown="btnEnd_MouseDown"
-                                    RutaImagen="stop" />
-                    <local:UCButton x:Name="btnReset"
-                                    Canvas.Left="193"
-                                    Height="32"
-                                    Margin="11,0,0,0"
-                                    MouseDown="btnReset_MouseDown"
-                                    RutaImagen="Undo" />
+                                    Height="37"
+                                    Margin="4,0,0,0"
+                                    MouseDown="btnSchemas_MouseDown"
+                                    RutaImagen="Vectorsquare" />
                     <StackPanel HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Orientation="Vertical">
@@ -661,7 +641,7 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontFamily="Cascadia Code"
-                           FontSize="26"
+                           FontSize="22"
                            Foreground="#8de44d">
 
                     </Label>
@@ -676,7 +656,7 @@
                                Padding="1"
                                FontFamily="Cascadia Mono Light"
                                Foreground="#FFE9E9E9"
-                               FontSize="14" />
+                               FontSize="12" />
                         <Label x:Name="lblLastCalculation"
                                Content="0"
                                Padding="1"
@@ -686,6 +666,20 @@
                                HorizontalContentAlignment="Right"
                                MinWidth="20" />
                     </StackPanel>
+                    <Grid  HorizontalAlignment="Stretch">
+                        <Label Content="TIME:"
+                               Padding="1"
+                               FontFamily="Cascadia Mono Light"
+                               Foreground="#FFE9E9E9"
+                               FontSize="12" />
+                        <Label x:Name="lblLastMS"
+                               Content="0"
+                               Padding="1"
+                               FontFamily="Cascadia Code SemiLight"
+                               Foreground="#FFEA753E"
+                               FontSize="14"
+                               HorizontalContentAlignment="Right"/>
+                    </Grid>
 
 
                 </StackPanel>
@@ -694,5 +688,89 @@
 
         </Grid>
 
+
+        <Grid Grid.Row="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Hidden"
+                          x:Name="SVPanel">
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="/Resources/Backgroundalt4kalt.png"
+                                    Stretch="None" />
+                    </Grid.Background>
+                    <Canvas x:Name="c1"
+                            MouseDown="c1_MouseDown"
+                            Background="Transparent"
+                            Focusable="True"
+                            MouseMove="c1_MouseMove"
+                            Grid.ColumnSpan="2"
+                            Width="3180"
+                            Height="1719" />
+
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              x:Name="PropertiesBox">
+            <Grid Margin="8" Width="270" Height="200">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0"
+                        Background="#353244"
+                        CornerRadius="5"
+                        BorderThickness="1"
+                        BorderBrush="#1b1d27">
+                    
+                </Border>
+
+                <WrapPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" >
+                    <Border Height="35"
+                            Width="35"
+                            Background="#353244"
+                            CornerRadius="5"
+                            Margin="6,0,0,6"
+                            BorderThickness="1"
+                            BorderBrush="#1b1d27">
+                        <local:UCButton x:Name="btnEnd"
+                                        MouseDown="btnEnd_MouseDown"
+                                        RutaImagen="stop" />
+                    </Border>
+                    <Border Height="35"
+                            Width="35"
+                            Background="#353244"
+                            CornerRadius="5"
+                            Margin="6,0,0,6"
+                            BorderThickness="1"
+                            BorderBrush="#1b1d27">
+                        <local:UCButton x:Name="btnPlay"
+                                        MouseDown="btnPlay_MouseDown"
+                                        RutaImagen="Play" />
+                    </Border>
+                    <Border Height="35"
+                            Width="35"
+                            Background="#353244"
+                            CornerRadius="5"
+                            Margin="6,0,0,6"
+                            BorderThickness="1"
+                            BorderBrush="#1b1d27">
+                        <local:UCButton x:Name="btnReset"
+                                        MouseDown="btnReset_MouseDown"
+                                        RutaImagen="Trash" />
+                    </Border>
+
+                </WrapPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Canvas x:Name="OverCanva">
+
+            </Canvas>
+        </Grid>
     </Grid>
 </Window>

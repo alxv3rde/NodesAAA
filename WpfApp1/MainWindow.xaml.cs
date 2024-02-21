@@ -38,11 +38,17 @@ namespace WpfApp1
             LoadButtons();
 
         }
+        private bool isDraggingSV = false;
+        private Point lastMousePosition;
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SVPanel.ScrollToHorizontalOffset(SVPanel.ScrollableWidth / 2);
+            SVPanel.ScrollToVerticalOffset(SVPanel.ScrollableHeight / 2);
+        }
         public static UCButton? LastButton { get; set; }
         private int count = -1;
         private int i = 0;
         Control? _ActiveControl;
-        Point point;
         bool isShiftActive = false;
 
         public static List<UserControl> uCBoxes = new List<UserControl>();
@@ -283,7 +289,10 @@ namespace WpfApp1
         }
         public void LoadButtons()
         {
-            
+            btnSchemas.IsControl = false;
+            btnAdyacencia.IsControl = false;
+            btnBars.IsControl = false;
+            uCButtons.Add(btnBars);
             btnPlay.IsControl = false;
             uCButtons.Add(btnPlay);
             btnReset.IsControl = false;
@@ -403,11 +412,80 @@ namespace WpfApp1
 
         private void btnBars_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            UCSchemes uCSchemes = new UCSchemes();
-            OverCanva.Children.Add(uCSchemes);
-            Canvas.SetLeft(uCSchemes, c1.ActualWidth / 2 - 375);
-            Canvas.SetTop(uCSchemes, OverCanva.ActualHeight / 2 - 250);
-            Canvas.SetZIndex(uCSchemes, OverCanva.Children.Count + 1);
+
+
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ChangedButton == MouseButton.Middle)
+            {
+                isDraggingSV = true;
+                lastMousePosition = e.GetPosition(SVPanel);
+                SVPanel.CaptureMouse();
+            }
+
+        }
+
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
+            {
+                isDraggingSV = false;
+                SVPanel.ReleaseMouseCapture();
+            }
+
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDraggingSV)
+            {
+                Point currentMousePosition = e.GetPosition(SVPanel);
+                double deltaX = currentMousePosition.X - lastMousePosition.X;
+                double deltaY = currentMousePosition.Y - lastMousePosition.Y;
+
+                SVPanel.ScrollToHorizontalOffset(SVPanel.HorizontalOffset - deltaX);
+                SVPanel.ScrollToVerticalOffset(SVPanel.VerticalOffset - deltaY);
+
+                lastMousePosition = currentMousePosition;
+            }
+        }
+        private void Window_SizeChanged_1(object sender, SizeChangedEventArgs e)
+        {
+            if (OverCanva.Children.Count > 0)
+            {
+                Canvas.SetLeft(OverCanva.Children[0], OverCanva.ActualWidth / 2 - 375);
+                Canvas.SetTop(OverCanva.Children[0], OverCanva.ActualHeight / 2 - 250);
+
+            }
+            double contentWidth = SVPanel.ExtentWidth;
+            double contentHeight = SVPanel.ExtentHeight;
+
+            double horizontalOffsetRatio = SVPanel.HorizontalOffset / Math.Max(1, contentWidth - e.PreviousSize.Width);
+            double verticalOffsetRatio = SVPanel.VerticalOffset / Math.Max(1, contentHeight - e.PreviousSize.Height);
+
+            double newHorizontalOffset = horizontalOffsetRatio * Math.Max(0, contentWidth - e.NewSize.Width);
+            double newVerticalOffset = verticalOffsetRatio * Math.Max(0, contentHeight - e.NewSize.Height);
+
+            SVPanel.ScrollToHorizontalOffset(newHorizontalOffset);
+            SVPanel.ScrollToVerticalOffset(newVerticalOffset);
+        }
+
+        private void btnSchemas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (OverCanva.Children.OfType<UCSchemes>().Count() <= 0)
+            {
+                UCSchemes uCSchemes = new UCSchemes();
+                OverCanva.Children.Add(uCSchemes);
+                Canvas.SetLeft(uCSchemes, OverCanva.ActualWidth / 2 - 375);
+                Canvas.SetTop(uCSchemes, OverCanva.ActualHeight / 2 - 250);
+            }
+        }
+
+        private void btnAdyacencia_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

@@ -27,7 +27,7 @@ namespace WpfApp1.UserControls
 
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
-            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5d5d5d"));
+            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
         }
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)

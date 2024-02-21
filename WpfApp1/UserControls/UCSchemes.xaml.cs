@@ -28,7 +28,7 @@ namespace WpfApp1.UserControls
         private bool isDragging = false;
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
-            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5d5d5d"));
+            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
         }
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
@@ -70,7 +70,8 @@ namespace WpfApp1.UserControls
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            var canvas = (Parent as Canvas);
+            canvas.Children.Remove(this);
         }
     }
 }

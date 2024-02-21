@@ -21,6 +21,9 @@
     <None Remove="Resources\Background.png" />
     <None Remove="Resources\background2K.png" />
     <None Remove="Resources\Background3.png" />
+    <None Remove="Resources\backgroundALT2K.png" />
+    <None Remove="Resources\backgroundALT4K.png" />
+    <None Remove="Resources\backgroundALT4Kalt.png" />
     <None Remove="Standard.png" />
     <None Remove="Step.png" />
     <None Remove="UserControls\Background2.png" />
@@ -40,6 +43,9 @@
     <Resource Include="Resources\Background.png" />
     <Resource Include="Resources\background2K.png" />
     <Resource Include="Resources\Background3.png" />
+    <Resource Include="Resources\backgroundALT2K.png" />
+    <Resource Include="Resources\backgroundALT4K.png" />
+    <Resource Include="Resources\backgroundALT4Kalt.png" />
     <Resource Include="Resources\Book.png" />
     <Resource Include="Resources\Edit.png" />
     <Resource Include="Resources\End.png">

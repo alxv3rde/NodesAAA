@@ -9,16 +9,16 @@
     d:DesignHeight="32" d:DesignWidth="35" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseDown="UserControl_MouseDown" Background="Transparent">
     <Border x:Name="border"
             CornerRadius="4"
-            Width="32"
-            Height="32">
+            Width="auto"
+            Height="auto" Padding="6">
         <fa:IconImage x:Name="img"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Width="22"
-                      Height="22"
+                      Width="auto"
+                      Height="auto"
                       Icon="{Binding RutaImagen, RelativeSource={RelativeSource AncestorType=local:UCButton}}"
                       Cursor="Hand"
-                      Foreground="White"
+                      Foreground="#e0e0e0"
                       />
     </Border>
 </UserControl>

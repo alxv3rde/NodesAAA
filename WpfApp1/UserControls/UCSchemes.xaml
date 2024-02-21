@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:WpfApp1.UserControls"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d"
-             d:DesignHeight="500"
-             d:DesignWidth="750">
+             Height="500"
+             Width="750">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,7 +29,6 @@
                             Height="25"
                             HorizontalAlignment="Right"
                             Style="{StaticResource closeButton}"
-                            MouseDown="btnClose_MouseDown"
                             Click="btnClose_Click">
                         <fa:IconImage Icon="times"
                                       Foreground="White"
@@ -59,11 +58,10 @@
                             Background="#383840">
                         <Grid Margin="5,10">
                             <StackPanel>
-                               
-                                <local:UCSchemeButton />
+
                                 <local:UCSchemeButton />
                                 <Grid MouseEnter="Grid_MouseEnter"
-                                      MouseLeave="Grid_MouseLeave">
+                                      MouseLeave="Grid_MouseLeave" Cursor="Hand">
                                     <Border x:Name="buttonBorder" Background="#383840"
                                             CornerRadius="2">
                                         <Grid Height="28"
@@ -152,12 +150,13 @@
                                     CornerRadius="2"
                                     Height="100"
                                     Padding="5,7">
-                                <TextBlock Text="Este es un esquema para el viajero"
+                                <TextBox Text="Este es un esquema para el viajero"
                                            Foreground="White"
                                            FontFamily="Consolas"
-                                           FontSize="12">
+                                           FontSize="12" Background="Transparent" BorderThickness="0"
+                                            TextWrapping="Wrap" TextAlignment="Justify">
 
-                                </TextBlock>
+                                </TextBox>
                             </Border>
                         </StackPanel>
                     </Grid>
