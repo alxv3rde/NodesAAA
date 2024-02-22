@@ -112,14 +112,28 @@ namespace WpfApp1
                 return;
             }
 
-            node.ChangeName(tbName.Text);
-            var panel = this.Parent as Canvas;
+            if (tbName.Text != "")
+            {
+
+                node.ChangeName(tbName.Text);
+            }
+            var panel = this.Parent as Grid;
             if (panel != null)
             {
                 MainWindow.uCBoxes.Clear();
                 panel.Children.Remove(this);
                 return;
             }
+        }
+
+        private void gEditNode_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbName.Focus();
+        }
+
+        private void tbName_GotFocus(object sender, RoutedEventArgs e)
+        {
+            tbName.Text = "";
         }
     }
 }

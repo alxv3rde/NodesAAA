@@ -15,7 +15,7 @@ namespace WpfApp1.Algorithms
         private string[] arr;
         private List<List<string>> res = new List<List<string>>();
         private bool[] used;
-        private List<(List<UCLine>, int)> lines = new List<(List<UCLine>, int)>();
+        private List<(List<UCLine>, double)> lines = new List<(List<UCLine>, double)>();
         private UCNode sNode;
 
         public Traveler(UCNode sNode)
@@ -32,7 +32,7 @@ namespace WpfApp1.Algorithms
             }
             Permute();
         }
-        public int Run()
+        public double Run()
         {
             var uCLines = lines.Find(x=>x.Item2 == lines.Min(y=>y.Item2));
             foreach (var l in uCLines.Item1)
@@ -79,7 +79,7 @@ namespace WpfApp1.Algorithms
         private void FindPermLines()
         {
             List<UCLine> l = new List<UCLine>();
-            int weight = 0;
+            double weight = 0;
 
             var firstConnection = _Lines.Find(x => x.ExistsConection(sNode, _Nodes.Find(y => y.GetName == permutation[0])));
             if (firstConnection != null)

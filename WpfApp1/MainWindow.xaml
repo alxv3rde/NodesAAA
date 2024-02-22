@@ -673,7 +673,7 @@
                                Foreground="#FFE9E9E9"
                                FontSize="12" />
                         <Label x:Name="lblLastMS"
-                               Content="0"
+                               Content="0s"
                                Padding="1"
                                FontFamily="Cascadia Code SemiLight"
                                Foreground="#FFEA753E"
@@ -714,9 +714,8 @@
 
         <Grid Grid.Row="1"
               HorizontalAlignment="Left"
-              VerticalAlignment="Top"
-              x:Name="PropertiesBox">
-            <Grid Margin="8" Width="270" Height="200">
+              VerticalAlignment="Top">
+            <Grid Margin="8" Width="270" Height="190">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="180"/>
                     <ColumnDefinition />
@@ -726,7 +725,11 @@
                         CornerRadius="5"
                         BorderThickness="1"
                         BorderBrush="#1b1d27">
+                    <Grid x:Name="PropertiesBox"  Margin="0,12">
+                        
+                    </Grid>
                     
+                        
                 </Border>
 
                 <WrapPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" >

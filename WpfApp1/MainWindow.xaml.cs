@@ -98,7 +98,7 @@ namespace WpfApp1
                 {
                     foreach (var ucb in uCBoxes)
                     {
-                        c1.Children.Remove(ucb);
+                        PropertiesBox.Children.Remove(ucb);
                     }
                     uCBoxes.Clear();
                 }
@@ -154,16 +154,22 @@ namespace WpfApp1
         {
             if (e.ChangedButton == MouseButton.Left)
             {
+                var n = _Nodes.FindAll(x => x.IsSelected);
+                if (n.Count >= 1)
+                {
+                    foreach (var ns in n)
+                    {
+                        ns.UnSelect();
+                    }
+                }
                 foreach (var ucb in uCBoxes)
                 {
-                    c1.Children.Remove(ucb);
+                    PropertiesBox.Children.Remove(ucb);
                 }
                 uCBoxes.Clear();
                 UCEditLineBox uCEditLineBox = new UCEditLineBox((UCLine)sender);
                 uCBoxes.Add(uCEditLineBox);
-                c1.Children.Add(uCEditLineBox);
-                Canvas.SetLeft(uCEditLineBox, (c1.ActualWidth / 2) - 150);
-                Canvas.SetZIndex(uCEditLineBox, c1.Children.Count + 1);
+                PropertiesBox.Children.Add(uCEditLineBox);
             }
             else if (e.ChangedButton == MouseButton.Right /*&& cbAlgorithm.SelectedIndex !=2*/)
             {
@@ -174,6 +180,14 @@ namespace WpfApp1
                 }
                 c1.Children.Remove(ucr);
                 _Lines.Remove(ucr);
+                if (uCBoxes.Count > 0)
+                {
+                    foreach (var ucb in uCBoxes)
+                    {
+                        PropertiesBox.Children.Remove(ucb);
+                    }
+                    uCBoxes.Clear();
+                }
             }
         }
 
@@ -207,7 +221,7 @@ namespace WpfApp1
                 {
                     foreach (var ucb in uCBoxes)
                     {
-                        c1.Children.Remove(ucb);
+                        PropertiesBox.Children.Remove(ucb);
                     }
                     uCBoxes.Clear();
                 }
@@ -235,14 +249,12 @@ namespace WpfApp1
                 {
                     foreach (var ucb in uCBoxes)
                     {
-                        c1.Children.Remove(ucb);
+                        PropertiesBox.Children.Remove(ucb);
                     }
                     uCBoxes.Clear();
                     UCEditNodeBox uCEditNodeBox = new UCEditNodeBox((UCNode)sender);
                     uCBoxes.Add(uCEditNodeBox);
-                    c1.Children.Add(uCEditNodeBox);
-                    Canvas.SetLeft(uCEditNodeBox, (c1.ActualWidth / 2) - 150);
-                    Canvas.SetZIndex(uCEditNodeBox, c1.Children.Count + 1);
+                    PropertiesBox.Children.Add(uCEditNodeBox);
                 }
                 isDragging = false;
             }
@@ -260,12 +272,11 @@ namespace WpfApp1
                 {
                     foreach (var ucb in uCBoxes)
                     {
-                        c1.Children.Remove(ucb);
+                        PropertiesBox.Children.Remove(ucb);
                     }
                     uCBoxes.Clear();
                 }
             }
-
             _ActiveControl = null;
         }
 
@@ -317,7 +328,11 @@ namespace WpfApp1
             if (endNodes.Count > 0)
             {
                 Traveler traveler = new Traveler(endNodes[0]);
-                lblLastCalculation.Content = traveler.Run();
+                DateTime inicio = DateTime.Now;
+                lblLastCalculation.Content = string.Format("{0:0.00}", traveler.Run());
+                DateTime fin = DateTime.Now;
+                TimeSpan duracion = fin - inicio;
+                lblLastMS.Content = duracion.TotalSeconds + "s";
                 foreach (var button in uCButtons)
                 {
                     button.UnableButton();
@@ -487,5 +502,6 @@ namespace WpfApp1
         {
 
         }
+
     }
 }

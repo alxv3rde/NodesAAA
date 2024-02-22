@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -57,9 +59,14 @@ namespace WpfApp1
         {
             if(tbName.Text != "")
             {
-                _Line.ChangeLineValue(Convert.ToInt32(tbName.Text));
+                try
+                {
+                    _Line.ChangeLineValue(Convert.ToDouble(tbName.Text));
+                }
+                catch { }
+                
             }
-            var panel = this.Parent as Canvas;
+            var panel = this.Parent as Grid;
             if (panel != null)
             {
                 MainWindow.uCBoxes.Clear();

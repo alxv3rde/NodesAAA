@@ -27,7 +27,7 @@ namespace WpfApp1.UserControls
             _Nodes.Add(n2);
             DrawControl();
         }
-        private int value;
+        private double value;
         bool way = false;
         public bool IsWay { get => way; }
         public bool ConectionIsWay(UCNode n1, UCNode n2)
@@ -52,9 +52,9 @@ namespace WpfApp1.UserControls
         {
             img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/End.png"));
         }
-        public int GetLineValue { get => value; }
+        public double GetLineValue { get => value; }
         List<UCNode> _Nodes = new List<UCNode>();
-        public void ChangeLineValue(int value)
+        public void ChangeLineValue(double value)
         {
             this.value = value;
             lblValue.Content = value.ToString();
