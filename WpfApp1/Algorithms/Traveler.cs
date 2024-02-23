@@ -34,12 +34,23 @@ namespace WpfApp1.Algorithms
         }
         public double Run()
         {
-            var uCLines = lines.Find(x=>x.Item2 == lines.Min(y=>y.Item2));
-            foreach (var l in uCLines.Item1)
+            var uCLinesMin = lines.Find(x=>x.Item2 == lines.Min(y=>y.Item2));
+            foreach (var item in _Lines)
             {
-                l.ChangeToWayline();
+                if (uCLinesMin.Item1.Contains(item))
+                {
+                    item.ChangeToWayline();
+                }
+                else
+                {
+                    item.ChangeToWrongWay();
+                }
             }
-            return uCLines.Item2;
+            //foreach (var l in uCLinesMin.Item1)
+            //{
+            //    l.ChangeToWayline();
+            //}
+            return uCLinesMin.Item2;
         }
         private void Permute()
         {

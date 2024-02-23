@@ -52,7 +52,6 @@
                 <TextBox x:Name="tbName"
                          HorizontalAlignment="Center"
                          TextWrapping="Wrap"
-                         Text="A"
                          VerticalAlignment="Center"
                          Width="100"
                          Background="#FF2C2A32"
@@ -61,10 +60,13 @@
                          FontFamily="Consolas"
                          Height="25"
                          VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"    
+                         HorizontalContentAlignment="Center"
                          FontSize="18"
                          TextChanged="TextBox_TextChanged"
-                         GotFocus="tbName_GotFocus" />
+                         GotFocus="tbName_GotFocus"
+                         Text="{Binding OutlinePlain, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                         BorderThickness="0">
+                </TextBox>
             </Border>
             <Border x:Name="btnNodeStatus" Grid.Row="2"
                     HorizontalAlignment="Center"

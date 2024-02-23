@@ -94,14 +94,6 @@ namespace WpfApp1
         {
             if (e.Key == Key.LeftShift)
             {
-                if (uCBoxes.Count > 0)
-                {
-                    foreach (var ucb in uCBoxes)
-                    {
-                        PropertiesBox.Children.Remove(ucb);
-                    }
-                    uCBoxes.Clear();
-                }
                 foreach (var n in _Nodes)
                 {
                     n.ShiftEnabled = true;
@@ -214,6 +206,9 @@ namespace WpfApp1
                 n.MouseDown += N_MouseDown;
                 n.MouseMove += N_MouseMove;
                 n.MouseUp += N_MouseUp;
+                UCEditNodeBox uCEditNodeBox = new UCEditNodeBox(n);
+                uCBoxes.Add(uCEditNodeBox);
+                PropertiesBox.Children.Add(uCEditNodeBox);
             }
             else if (_Nodes.Count >= 1 && e.OriginalSource == c1)
             {
@@ -239,22 +234,13 @@ namespace WpfApp1
         private void N_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
+
             if (e.ChangedButton == MouseButton.Left)
             {
-                if (isDragging)
+                if (!isShiftActive)
                 {
+
                     _ActiveControl = (UCNode)sender;
-                }
-                else if (!isShiftActive)
-                {
-                    foreach (var ucb in uCBoxes)
-                    {
-                        PropertiesBox.Children.Remove(ucb);
-                    }
-                    uCBoxes.Clear();
-                    UCEditNodeBox uCEditNodeBox = new UCEditNodeBox((UCNode)sender);
-                    uCBoxes.Add(uCEditNodeBox);
-                    PropertiesBox.Children.Add(uCEditNodeBox);
                 }
                 isDragging = false;
             }
@@ -287,8 +273,21 @@ namespace WpfApp1
 
         private void N_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            foreach (var ucb in uCBoxes)
+            {
+                PropertiesBox.Children.Remove(ucb);
+            }
+            uCBoxes.Clear();
+
             if (e.ChangedButton == MouseButton.Left)
             {
+                if (_Nodes.FindAll(x => x.IsSelected).Count <= 1)
+                {
+
+                    UCEditNodeBox uCEditNodeBox = new UCEditNodeBox((UCNode)sender);
+                    uCBoxes.Add(uCEditNodeBox);
+                    PropertiesBox.Children.Add(uCEditNodeBox);
+                }
                 _ActiveControl = (UCNode)sender;
                 isDragging = false;
             }
@@ -323,7 +322,7 @@ namespace WpfApp1
             {
                 n.LoadNodes();
             }
-            
+
             List<UCNode> endNodes = _Nodes.FindAll(x => x.GetNodeType == Enums.NodeType.End);
             if (endNodes.Count > 0)
             {
@@ -433,7 +432,7 @@ namespace WpfApp1
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.ChangedButton == MouseButton.Middle)
+            if ((e.ChangedButton == MouseButton.Middle || e.ChangedButton == MouseButton.Right) && e.OriginalSource == c1)
             {
                 isDraggingSV = true;
                 lastMousePosition = e.GetPosition(SVPanel);
@@ -444,7 +443,7 @@ namespace WpfApp1
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Middle)
+            if (e.ChangedButton == MouseButton.Middle|| e.ChangedButton == MouseButton.Right )
             {
                 isDraggingSV = false;
                 SVPanel.ReleaseMouseCapture();

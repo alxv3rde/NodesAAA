@@ -82,4 +82,16 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style TargetType="TextBox" x:Key="boxi">
+        <Style.Triggers>
+            <Trigger Property="IsFocused"
+                     Value="True">
+                <Setter Property="BorderThickness"
+                        Value="1" />
+                <Setter Property="BorderBrush"
+                        Value="Black" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

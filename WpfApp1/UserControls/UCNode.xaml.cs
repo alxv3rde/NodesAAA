@@ -100,6 +100,12 @@ namespace WpfApp1.UserControls
 
         private void gNode_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
+            NodeSelection(e);
+        }
+
+        private void NodeSelection(MouseButtonEventArgs e)
+        {
             if (e.ChangedButton == MouseButton.Left && !selected)
             {
                 if (type == NodeType.Common)
@@ -172,7 +178,12 @@ namespace WpfApp1.UserControls
 
                 }
             }
+        }
 
+        private void gNode_Loaded(object sender, RoutedEventArgs e)
+        {
+            AnimationBehavior.SetSourceUri(n2, new Uri("pack://application:,,,/Resources/NSelectedCommonNode.gif"));
+            selected = true;
         }
     }
 }

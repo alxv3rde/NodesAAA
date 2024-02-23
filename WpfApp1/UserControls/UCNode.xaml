@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:WpfApp1.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="60" Width="60" MinWidth="60" MinHeight="60" MaxWidth="60" MaxHeight="60">
-    <Grid x:Name="gNode" MouseDown="gNode_MouseDown" Cursor="Hand" >
+    <Grid x:Name="gNode" MouseDown="gNode_MouseDown" Cursor="Hand"
+          Loaded="gNode_Loaded">
         <Image x:Name="n2"
                Height="60"
                Width="60"

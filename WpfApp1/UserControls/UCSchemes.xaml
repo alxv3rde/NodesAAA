@@ -58,18 +58,15 @@
                             Background="#383840">
                         <Grid Margin="5,10">
                             <StackPanel>
-
+                            
                                 <local:UCSchemeButton />
                                 <Grid MouseEnter="Grid_MouseEnter"
-                                      MouseLeave="Grid_MouseLeave" Cursor="Hand">
+                                      MouseLeave="Grid_MouseLeave" Cursor="Hand"
+                                      MouseDown="Grid_MouseDown">
                                     <Border x:Name="buttonBorder" Background="#383840"
                                             CornerRadius="2">
                                         <Grid Height="28"
                                               Margin="4,0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
                                             <StackPanel Orientation="Horizontal"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center">
@@ -77,14 +74,45 @@
                                                         Width="20"
                                                         Height="20"
                                                         CornerRadius="2"
-                                                        Padding="3">
+                                                        Padding="3"
+                                                        Cursor="">
                                                     <fa:IconImage Icon="Plus"
                                                                   Foreground="White"/>
                                                 </Border>
                                                 <Label Content="New scheme"
                                                        Foreground="White"
                                                        FontFamily="Cascadia Code"
-                                                       FontSize="17" />
+                                                       FontSize="17" x:Name="lblNew"/>
+                                                <Border HorizontalAlignment="Stretch"
+                                                        Visibility="Collapsed"
+                                                        Margin="10,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Height="28"
+                                                        CornerRadius="3"
+                                                        BorderBrush="#FF3D4980"
+                                                        Background="#FF2C2A32"
+                                                        BorderThickness="1.5"
+                                                        Grid.Row="1" x:Name="tbNewScheme" >
+                                                    <TextBox x:Name="tbName"
+                                                             HorizontalAlignment="Left"
+                                                             TextWrapping="Wrap"
+                                                             Text="{Binding OutlinePlain, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                                                             BorderThickness="0"
+                                                             VerticalAlignment="Center"
+                                                             Background="#FF2C2A32"
+                                                             BorderBrush="Transparent"
+                                                             Foreground="#FF7E7D81"
+                                                             FontFamily="Consolas"
+                                                             Width="350"
+                                                             Height="25"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Left"
+                                                             FontSize="18"
+                                                             TextAlignment="Left"
+                                                             KeyDown="tbName_KeyDown"
+                                                             LostFocus="tbName_LostFocus">
+                                                    </TextBox>
+                                                </Border>
                                             </StackPanel>
                                         </Grid>
                                     </Border>
@@ -154,7 +182,7 @@
                                            Foreground="White"
                                            FontFamily="Consolas"
                                            FontSize="12" Background="Transparent" BorderThickness="0"
-                                            TextWrapping="Wrap" TextAlignment="Justify">
+                                            TextWrapping="Wrap" TextAlignment="Justify" x:Name="tbDescription">
 
                                 </TextBox>
                             </Border>

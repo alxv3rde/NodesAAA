@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -43,10 +44,15 @@ namespace WpfApp1.UserControls
             way = true;
             img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Wayline.png"));
         }
+        public void ChangeToWrongWay()
+        {
+            img.Opacity = 0.5;
+        }
         public void ChangeToLine()
         {
             way = false;
             img.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Line.png"));
+            img.Opacity = 1;
         }
         public void ChangeToTry()
         {

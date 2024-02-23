@@ -69,7 +69,8 @@
                 <TextBox x:Name="tbName"
                          HorizontalAlignment="Center"
                          TextWrapping="Wrap"
-                         Text="A"
+                         Text="{Binding OutlinePlain, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                         BorderThickness="0"
                          VerticalAlignment="Center"
                          Background="#FF2C2A32"
                          BorderBrush="Transparent"
@@ -80,7 +81,9 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"
                          FontSize="18"
-                         GotFocus="tbName_GotFocus" TextAlignment="Center" />
+                         GotFocus="tbName_GotFocus"
+                         TextAlignment="Center">
+                </TextBox>
             </Border>
         </Grid>
     </Grid>

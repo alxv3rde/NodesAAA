@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace WpfApp1.UserControls
 {
@@ -23,17 +26,28 @@ namespace WpfApp1.UserControls
         public UCSchemes()
         {
             InitializeComponent();
+
         }
+
+        private List<(string, string)> _basicInfo = new List<(string, string)>(); // Item1 = name, item2 = description
+        public UCSchemes(string _name)
+        {
+
+        }
+
+
         private event EventHandler btnCloseClicked;
         private bool isDragging = false;
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
-            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
+            if (!_active)
+                buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
         }
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
+            if (!_active)
+                buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
         }
 
 
@@ -72,6 +86,40 @@ namespace WpfApp1.UserControls
         {
             var canvas = (Parent as Canvas);
             canvas.Children.Remove(this);
+        }
+        bool _active = false;
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _active = true;
+            lblNew.Visibility = Visibility.Collapsed;
+            tbNewScheme.Visibility = Visibility.Visible;
+            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
+            tbName.Focus();
+        }
+
+        private void tbName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            SaveScheme();
+        }
+
+        private void tbName_LostFocus(object sender, RoutedEventArgs e)
+        {
+        }
+        private void SaveScheme()
+        {
+            _active = false;
+            lblNew.Visibility = Visibility.Visible;
+            tbNewScheme.Visibility = Visibility.Collapsed;
+            XDocument xDoc= new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"), // Declaración XML
+                new XElement("Schema", // Elemento raíz
+                    new XElement("Name", tbName.Text),
+                    new XElement("Description", tbDescription.Text)
+                )
+            );
+            xDoc.Save(@"..\..\..\Schemes\" + tbName.Text + ".xml");
+            tbName.Text = "";
         }
     }
 }
