@@ -128,10 +128,12 @@ namespace WpfApp1
                 {
                     WindowState = WindowState.Normal;
                     WindowStyle = WindowStyle.SingleBorderWindow;
+                    this.ResizeMode = ResizeMode.CanResize;
                     Topmost = false;
                 }
                 else
                 {
+                    this.ResizeMode = ResizeMode.NoResize;
                     WindowState = WindowState.Maximized;
                     WindowStyle = WindowStyle.None;
                     Topmost = true;
@@ -332,6 +334,46 @@ namespace WpfApp1
                 DateTime fin = DateTime.Now;
                 TimeSpan duracion = fin - inicio;
                 lblLastMS.Content = duracion.TotalSeconds + "s";
+                string tot = "";
+                string first = endNodes[0].GetName;
+                foreach (var item in traveler.lines)
+                {
+                    List<string> temp = new List<string>();
+                    foreach (var i in item.Item1)
+                    {
+                        if (temp.Exists(x => x.Equals(i.GetNodes[0].GetName)))
+                        {
+                            if (item.Item1.LastOrDefault()?.Equals(i.GetNodes[0]) == true)
+                            {
+                                tot += i.GetNodes[1].GetName + " = " + item.Item2;
+                                temp.Add(i.GetNodes[1].GetName);
+                            }
+                            else
+                            {
+                                tot += i.GetNodes[1].GetName + " -> ";
+                                temp.Add(i.GetNodes[1].GetName);
+                            }
+                        }
+                        else
+                        {
+                            if (item.Item1.LastOrDefault()?.Equals(i.GetNodes[1]) == true)
+                            {
+                                tot += i.GetNodes[0].GetName + " = " + item.Item2;
+                                temp.Add(i.GetNodes[0].GetName);
+                            }
+                            else
+                            {
+                                tot += i.GetNodes[0].GetName + " -> ";
+                                temp.Add(i.GetNodes[0].GetName);
+                            }
+                        }
+
+                        
+
+                    }
+                    tot += "\n";
+                }
+                MessageBox.Show(tot);
                 foreach (var button in uCButtons)
                 {
                     button.UnableButton();
@@ -502,5 +544,9 @@ namespace WpfApp1
 
         }
 
+        private void btnAdyacencia_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

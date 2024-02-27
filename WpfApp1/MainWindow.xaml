@@ -622,7 +622,8 @@
                                     Height="35"
                                     Margin="4,0,0,0"
                                     MouseDown="btnAdyacencia_MouseDown"
-                                    RutaImagen="scroll" />
+                                    RutaImagen="scroll"
+                                    Loaded="btnAdyacencia_Loaded" />
                     <local:UCButton x:Name="btnSchemas"
                                     Canvas.Left="193"
                                     Height="37"

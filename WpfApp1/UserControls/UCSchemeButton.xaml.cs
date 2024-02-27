@@ -24,7 +24,14 @@ namespace WpfApp1.UserControls
         {
             InitializeComponent();
         }
+        public static readonly DependencyProperty TextProperty =
+        DependencyProperty.Register("Text", typeof(string), typeof(UCSchemeButton));
 
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
             buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
@@ -33,6 +40,19 @@ namespace WpfApp1.UserControls
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
             buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
+        }
+        public void SetName(string item)
+        {
+            lblNombre.Content = item;
+        }
+        public string GetName()
+        {
+            return lblNombre.Content.ToString();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
         }
     }
 }

@@ -57,13 +57,22 @@
                             Margin="5,8,0,5"
                             Background="#383840">
                         <Grid Margin="5,10">
-                            <StackPanel>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <StackPanel x:Name="SchemePanel">
                             
-                                <local:UCSchemeButton />
+                                
+                            </StackPanel>
+                            <Grid Grid.Row="1" VerticalAlignment="Top"
+                                  Cursor="Hand">
                                 <Grid MouseEnter="Grid_MouseEnter"
-                                      MouseLeave="Grid_MouseLeave" Cursor="Hand"
+                                      MouseLeave="Grid_MouseLeave"
+                                      Cursor="Hand"
                                       MouseDown="Grid_MouseDown">
-                                    <Border x:Name="buttonBorder" Background="#383840"
+                                    <Border x:Name="buttonBorder"
+                                            Background="#383840"
                                             CornerRadius="2">
                                         <Grid Height="28"
                                               Margin="4,0">
@@ -77,12 +86,13 @@
                                                         Padding="3"
                                                         Cursor="">
                                                     <fa:IconImage Icon="Plus"
-                                                                  Foreground="White"/>
+                                                                  Foreground="White" />
                                                 </Border>
                                                 <Label Content="New scheme"
                                                        Foreground="White"
                                                        FontFamily="Cascadia Code"
-                                                       FontSize="17" x:Name="lblNew"/>
+                                                       FontSize="17"
+                                                       x:Name="lblNew" />
                                                 <Border HorizontalAlignment="Stretch"
                                                         Visibility="Collapsed"
                                                         Margin="10,0,0,0"
@@ -92,7 +102,8 @@
                                                         BorderBrush="#FF3D4980"
                                                         Background="#FF2C2A32"
                                                         BorderThickness="1.5"
-                                                        Grid.Row="1" x:Name="tbNewScheme" >
+                                                        Grid.Row="1"
+                                                        x:Name="tbNewScheme">
                                                     <TextBox x:Name="tbName"
                                                              HorizontalAlignment="Left"
                                                              TextWrapping="Wrap"
@@ -117,7 +128,7 @@
                                         </Grid>
                                     </Border>
                                 </Grid>
-                            </StackPanel>
+                            </Grid>
                         </Grid>
                     </Border>
 

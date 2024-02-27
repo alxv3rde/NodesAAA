@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,8 +27,68 @@ namespace WpfApp1.UserControls
         public UCSchemes()
         {
             InitializeComponent();
-
+            LoadFolderNames();
+           
         }
+        private void LoadFolderNames()
+        {
+            SchemePanel.Children.Clear();
+            string folderPath = @"..\..\..\Schemes\";
+            List<string> fileNames = GetFileNamesInFolder(folderPath);
+            foreach (var item in fileNames)
+            {
+                UCSchemeButton uCSchemeB = new UCSchemeButton();
+                uCSchemeB.SetName(item);
+                SchemePanel.Children.Add(uCSchemeB);
+                uCSchemeB.MouseDown += UCSchemeB_MouseDown;
+            }
+        }
+        private void UCSchemeB_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UCSchemeButton button = (UCSchemeButton)sender;
+            if(e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                
+            }
+        }
+        private void LoadXML(string schemeName)
+        {
+            try 
+            {
+                XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
+
+            }
+            catch
+            {
+
+            }
+        }
+
+        static List<string> GetFileNamesInFolder(string folderPath)
+        {
+            List<string> fileNames = new List<string>();
+
+            try
+            {
+                // Obtener la lista de archivos en la carpeta
+                string[] files = Directory.GetFiles(folderPath);
+
+                // Agregar los nombres de los archivos a la lista
+                foreach (var filePath in files)
+                {
+                    string fileName = System.IO.Path.GetFileName(filePath);
+                    string[] name = fileName.Split('.');
+                    fileNames.Add(name[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener los nombres de los archivos: {ex.Message}");
+            }
+
+            return fileNames;
+        }
+        List<UCSchemeButton> buttons = new List<UCSchemeButton>();
 
         private List<(string, string)> _basicInfo = new List<(string, string)>(); // Item1 = name, item2 = description
         public UCSchemes(string _name)
@@ -115,10 +176,13 @@ namespace WpfApp1.UserControls
                 new XDeclaration("1.0", "utf-8", "yes"), // Declaración XML
                 new XElement("Schema", // Elemento raíz
                     new XElement("Name", tbName.Text),
-                    new XElement("Description", tbDescription.Text)
+                    new XElement("Description", tbDescription.Text),
+                    new XElement("Nodes"),
+                    new XElement("Conections")
                 )
             );
             xDoc.Save(@"..\..\..\Schemes\" + tbName.Text + ".xml");
+            LoadFolderNames();
             tbName.Text = "";
         }
     }

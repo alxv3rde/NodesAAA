@@ -13,9 +13,9 @@ namespace WpfApp1.Algorithms
         private List<UCLine> _Lines = MainWindow.GetLines;
         private List<string> permutation = new List<string>();
         private string[] arr;
-        private List<List<string>> res = new List<List<string>>();
+        public List<List<string>> res = new List<List<string>>();
         private bool[] used;
-        private List<(List<UCLine>, double)> lines = new List<(List<UCLine>, double)>();
+        public List<(List<UCLine>, double)> lines = new List<(List<UCLine>, double)>();
         private UCNode sNode;
 
         public Traveler(UCNode sNode)
@@ -46,12 +46,9 @@ namespace WpfApp1.Algorithms
                     item.ChangeToWrongWay();
                 }
             }
-            //foreach (var l in uCLinesMin.Item1)
-            //{
-            //    l.ChangeToWayline();
-            //}
             return uCLinesMin.Item2;
         }
+        
         private void Permute()
         {
             if (permutation.Count == arr.Length)
@@ -71,6 +68,7 @@ namespace WpfApp1.Algorithms
                 }
             }
         }
+        
         public static string ToString(List<string> s)
         {
             string str = "";
@@ -87,6 +85,8 @@ namespace WpfApp1.Algorithms
                 ret.Add(s[j]);
             return ret;
         }
+
+        public List<double> weights = new List<double>();
         private void FindPermLines()
         {
             List<UCLine> l = new List<UCLine>();
@@ -120,7 +120,7 @@ namespace WpfApp1.Algorithms
                 {
                     return;
                 }
-
+                weights.Add(weight);
                 lines.Add((l, weight));
             }
         }

@@ -8,28 +8,28 @@ using System.Threading.Tasks;
 
 namespace WpfApp1
 {
-    class MainWindowViewModel : INotifyPropertyChanged
+    class MainWindowViewModel /*: INotifyPropertyChanged*/
     {
-        private string _rutaDeLaImagen;
+        //private string _rutaDeLaImagen;
 
-        public string RutaDeLaImagen
-        {
-            get { return _rutaDeLaImagen; }
-            set
-            {
-                if (_rutaDeLaImagen != value)
-                {
-                    _rutaDeLaImagen = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        //public string RutaDeLaImagen
+        //{
+        //    get { return _rutaDeLaImagen; }
+        //    set
+        //    {
+        //        if (_rutaDeLaImagen != value)
+        //        {
+        //            _rutaDeLaImagen = value;
+        //            OnPropertyChanged();
+        //        }
+        //    }
+        //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }
