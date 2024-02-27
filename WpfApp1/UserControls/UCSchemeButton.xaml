@@ -9,9 +9,11 @@
              d:DesignHeight="38" d:DesignWidth="300">
     <Grid MouseEnter="Grid_MouseEnter"
           MouseLeave="Grid_MouseLeave" Cursor="Hand"
-          MouseDown="Grid_MouseDown">
-        <Border x:Name="buttonBorder" Background="#383840"
-                CornerRadius="2">
+          MouseDown="Grid_MouseDown"
+          x:Name="btnGrid"
+          Background= "#383840">
+        <Border x:Name="buttonBorder" 
+                CornerRadius="2" Background="{Binding BackgroundColor}">
             <Grid Height="28"
                   Margin="4,0">
                 <Grid.ColumnDefinitions>
@@ -39,16 +41,24 @@
                             VerticalAlignment="Center"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
+                    <fa:IconImage Icon="Copy"
+                                  Width="12"
+                                  Foreground="White"
+                                  Margin="5,0"
+                                  Visibility="Hidden"
+                                  x:Name="btnClone" />
                     <fa:IconImage Icon="PencilAlt"
                                   Width="12"
                                   Foreground="White"
                                   Margin="5,0" 
-                                  Visibility="Hidden"/>
+                                  Visibility="Hidden" 
+                                  x:Name="btnEdit"/>
                     <fa:IconImage Icon="TrashAlt"
                                   Width="12"
                                   Foreground="White"
-                                  Margin="10,0,5,0" 
-                                  Visibility="Hidden"/>
+                                  Margin="5,0,5,0" 
+                                  Visibility="Hidden" 
+                                  x:Name="btnDelete"/>
                 </StackPanel>
             </Grid>
         </Border>

@@ -38,6 +38,7 @@ namespace WpfApp1.UserControls
             foreach (var item in fileNames)
             {
                 UCSchemeButton uCSchemeB = new UCSchemeButton();
+                buttons.Add(uCSchemeB);
                 uCSchemeB.SetName(item);
                 SchemePanel.Children.Add(uCSchemeB);
                 uCSchemeB.MouseDown += UCSchemeB_MouseDown;
@@ -46,16 +47,31 @@ namespace WpfApp1.UserControls
         private void UCSchemeB_MouseDown(object sender, MouseButtonEventArgs e)
         {
             UCSchemeButton button = (UCSchemeButton)sender;
-            if(e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            if(e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
             {
-                
+                LoadXMLInfo(button.GetName());
+                foreach (var b in buttons)
+                {
+                    b.Viewed = false;
+                }
+                button.Viewed = true;
+            }
+            else if(e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                foreach (var b in buttons)
+                {
+                    b.Selected = false;
+                }
+                button.Selected = true;
             }
         }
-        private void LoadXML(string schemeName)
+        private void LoadXMLInfo(string schemeName)
         {
             try 
             {
                 XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
+                lblNameDes.Content = schemeName;
+                tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault().Value;
 
             }
             catch

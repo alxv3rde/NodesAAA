@@ -23,23 +23,91 @@ namespace WpfApp1.UserControls
         public UCSchemeButton()
         {
             InitializeComponent();
+            DataContext = this;
         }
-        public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register("Text", typeof(string), typeof(UCSchemeButton));
+        public static readonly DependencyProperty BackgroundColorProperty =
+            DependencyProperty.Register("BackgroundColor", typeof(Brush), typeof(UCSchemeButton));
+        private bool selected;
+        private bool viewed;
 
-        public string Text
+        public bool Selected
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get { return selected; }
+            set
+            {
+                selected = value;
+                if (selected)
+                {
+                    buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5d5d5d"));
+                    btnClone.Visibility = Visibility.Visible;
+                    btnEdit.Visibility = Visibility.Visible;
+                    btnDelete.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    buttonBorder.Background = Brushes.Transparent;
+                    btnClone.Visibility = Visibility.Hidden;
+                    btnEdit.Visibility = Visibility.Hidden;
+                    btnDelete.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+        public bool Viewed
+        {
+            get { return viewed; }
+            set
+            {
+                viewed = value;
+                if (viewed && !selected)
+                {
+                    buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#49496c"));
+                    btnClone.Visibility = Visibility.Visible;
+                    btnEdit.Visibility = Visibility.Visible;
+                    btnDelete.Visibility = Visibility.Visible;
+                }else if (viewed && selected)
+                {
+                    buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#49496c"));
+                    btnClone.Visibility = Visibility.Visible;
+                    btnEdit.Visibility = Visibility.Visible;
+                    btnDelete.Visibility = Visibility.Collapsed;
+                }
+                else if(!viewed &&!selected)
+                {
+                    buttonBorder.Background = Brushes.Transparent;
+                    btnClone.Visibility = Visibility.Hidden;
+                    btnEdit.Visibility = Visibility.Hidden;
+                    btnDelete.Visibility = Visibility.Hidden;
+                }else if (!viewed && selected)
+                {
+                    buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5d5d5d"));
+                }
+                
+            }
+        }
+
+        public Brush BackgroundColor
+        {
+            get { return (Brush)GetValue(BackgroundColorProperty); }
+            set { SetValue(BackgroundColorProperty, value); }
         }
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
-            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
+            if (viewed && selected)
+            {
+
+            }
+            else
+            {
+                if(!viewed)
+                    buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
+            }
         }
+                
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
+            if (!viewed && !selected)
+                buttonBorder.Background = Brushes.Transparent;
         }
         public void SetName(string item)
         {
@@ -52,7 +120,7 @@ namespace WpfApp1.UserControls
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+
         }
     }
 }

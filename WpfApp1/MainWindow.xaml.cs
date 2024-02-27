@@ -330,8 +330,9 @@ namespace WpfApp1
             {
                 Traveler traveler = new Traveler(endNodes[0]);
                 DateTime inicio = DateTime.Now;
-                lblLastCalculation.Content = string.Format("{0:0.00}", traveler.Run());
+                double res = traveler.Run();
                 DateTime fin = DateTime.Now;
+                lblLastCalculation.Content = string.Format("{0:0.00}", res);
                 TimeSpan duracion = fin - inicio;
                 lblLastMS.Content = duracion.TotalSeconds + "s";
                 string tot = "";
@@ -341,35 +342,29 @@ namespace WpfApp1
                     List<string> temp = new List<string>();
                     foreach (var i in item.Item1)
                     {
-                        if (temp.Exists(x => x.Equals(i.GetNodes[0].GetName)))
+                        if (!temp.Contains(i.GetNodes[0].GetName) && !temp.Contains(i.GetNodes[1].GetName))
                         {
-                            if (item.Item1.LastOrDefault()?.Equals(i.GetNodes[0]) == true)
-                            {
-                                tot += i.GetNodes[1].GetName + " = " + item.Item2;
-                                temp.Add(i.GetNodes[1].GetName);
-                            }
-                            else
-                            {
-                                tot += i.GetNodes[1].GetName + " -> ";
-                                temp.Add(i.GetNodes[1].GetName);
-                            }
+                            tot += i.GetNodes[0].GetName + " -> " + i.GetNodes[1].GetName + " -> ";
+                            temp.Add(i.GetNodes[0].GetName);
+                            temp.Add(i.GetNodes[1].GetName);
                         }
                         else
                         {
-                            if (item.Item1.LastOrDefault()?.Equals(i.GetNodes[1]) == true)
-                            {
-                                tot += i.GetNodes[0].GetName + " = " + item.Item2;
-                                temp.Add(i.GetNodes[0].GetName);
-                            }
-                            else
+                            if (!temp.Contains(i.GetNodes[0].GetName))
                             {
                                 tot += i.GetNodes[0].GetName + " -> ";
                                 temp.Add(i.GetNodes[0].GetName);
                             }
+                            else if (!temp.Contains(i.GetNodes[1].GetName))
+                            {
+                                tot += i.GetNodes[1].GetName + " -> ";
+                                temp.Add(i.GetNodes[1].GetName);
+                            }
+                            else
+                            {
+                                tot += endNodes[0].GetName + " = " + string.Format("{0:0.00}", item.Item2);
+                            }
                         }
-
-                        
-
                     }
                     tot += "\n";
                 }
@@ -485,7 +480,7 @@ namespace WpfApp1
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Middle|| e.ChangedButton == MouseButton.Right )
+            if (e.ChangedButton == MouseButton.Middle || e.ChangedButton == MouseButton.Right)
             {
                 isDraggingSV = false;
                 SVPanel.ReleaseMouseCapture();

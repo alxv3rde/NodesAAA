@@ -154,7 +154,8 @@
                                    Foreground="#ffffff"
                                    HorizontalContentAlignment="Center"
                                    FontSize="20"
-                                   FontFamily="Cascadia Code" />
+                                   FontFamily="Cascadia Code" 
+                                   x:Name="lblNameDes"/>
                         </StackPanel>
                         <Grid Grid.Row="1"
                               VerticalAlignment="Center">
