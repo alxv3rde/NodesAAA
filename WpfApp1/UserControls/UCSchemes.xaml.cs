@@ -72,12 +72,16 @@ namespace WpfApp1.UserControls
                 XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
                 lblNameDes.Content = schemeName;
                 tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault().Value;
-
+                lblLastEdit.Content = xDoc.Descendants("LastEditDate").FirstOrDefault().Value;
             }
             catch
             {
 
             }
+        }
+        public XDocument LoadXML(string schemename)
+        {
+
         }
 
         static List<string> GetFileNamesInFolder(string folderPath)
@@ -177,22 +181,25 @@ namespace WpfApp1.UserControls
         private void tbName_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
-            SaveScheme();
+            NewScheme();
         }
 
         private void tbName_LostFocus(object sender, RoutedEventArgs e)
         {
         }
-        private void SaveScheme()
+        private void NewScheme()
         {
             _active = false;
             lblNew.Visibility = Visibility.Visible;
             tbNewScheme.Visibility = Visibility.Collapsed;
+            DateTime dateTime = DateTime.Now;
             XDocument xDoc= new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"), // Declaración XML
                 new XElement("Schema", // Elemento raíz
                     new XElement("Name", tbName.Text),
                     new XElement("Description", tbDescription.Text),
+                    new XElement("CreationDate", dateTime),
+                    new XElement("LastEditDate", dateTime),
                     new XElement("Nodes"),
                     new XElement("Conections")
                 )

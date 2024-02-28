@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Schema>
-  <Name>ola</Name>
+  <Name>nuevo</Name>
   <Description>Este es un esquema para el viajero</Description>
+  <CreationDate>2024-02-27T17:58:27.7783887-06:00</CreationDate>
+  <LastEditDate>2024-02-27T17:58:27.7783887-06:00</LastEditDate>
   <Nodes />
   <Conections />
 </Schema>
