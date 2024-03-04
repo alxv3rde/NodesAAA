@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FontAwesome.Sharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,8 +29,9 @@ namespace WpfApp1.UserControls
         {
             InitializeComponent();
             LoadFolderNames();
-           
+
         }
+        private UCSchemeButton ViewedButton;
         private void LoadFolderNames()
         {
             SchemePanel.Children.Clear();
@@ -44,44 +46,48 @@ namespace WpfApp1.UserControls
                 uCSchemeB.MouseDown += UCSchemeB_MouseDown;
             }
         }
-        private void UCSchemeB_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void UCSchemeB_MouseDown(object sender, MouseButtonEventArgs e)
         {
             UCSchemeButton button = (UCSchemeButton)sender;
-            if(e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
             {
-                LoadXMLInfo(button.GetName());
+                await LoadXMLInfo(button.GetName());
                 foreach (var b in buttons)
                 {
                     b.Viewed = false;
                 }
                 button.Viewed = true;
+                ViewedButton = button;
             }
-            else if(e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            else if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
                 foreach (var b in buttons)
                 {
                     b.Selected = false;
                 }
+
                 button.Selected = true;
             }
+
+
         }
-        private void LoadXMLInfo(string schemeName)
+        private async Task LoadXMLInfo(string schemeName)
         {
-            try 
+            try
             {
                 XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
                 lblNameDes.Content = schemeName;
-                tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault().Value;
-                lblLastEdit.Content = xDoc.Descendants("LastEditDate").FirstOrDefault().Value;
+                tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault()?.Value;
+                lblLastEdit.Content = xDoc.Descendants("LastEditDate").FirstOrDefault()?.Value;
             }
             catch
             {
 
             }
         }
-        public XDocument LoadXML(string schemename)
+        public async Task LoadScheme(string schemeName)
         {
-
+            XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
         }
 
         static List<string> GetFileNamesInFolder(string folderPath)
@@ -119,13 +125,13 @@ namespace WpfApp1.UserControls
 
         private event EventHandler btnCloseClicked;
         private bool isDragging = false;
-        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        private void Grid_MouseEnter(object sender, MouseEventArgs e) // btnNewScheme
         {
             if (!_active)
                 buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c68e45"));
         }
 
-        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        private void Grid_MouseLeave(object sender, MouseEventArgs e) // btnNewScheme
         {
             if (!_active)
                 buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
@@ -169,23 +175,29 @@ namespace WpfApp1.UserControls
             canvas.Children.Remove(this);
         }
         bool _active = false;
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e) // btnNewScheme
         {
             _active = true;
             lblNew.Visibility = Visibility.Collapsed;
             tbNewScheme.Visibility = Visibility.Visible;
             buttonBorder.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#383840"));
             tbName.Focus();
+            e.Handled = true;
         }
+
 
         private void tbName_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter)
-            NewScheme();
+            if (e.Key == Key.Enter)
+                NewScheme();
         }
 
         private void tbName_LostFocus(object sender, RoutedEventArgs e)
         {
+            _active = false;
+            lblNew.Visibility = Visibility.Visible;
+            tbNewScheme.Visibility = Visibility.Collapsed;
+            tbName.Text = "";
         }
         private void NewScheme()
         {
@@ -193,19 +205,46 @@ namespace WpfApp1.UserControls
             lblNew.Visibility = Visibility.Visible;
             tbNewScheme.Visibility = Visibility.Collapsed;
             DateTime dateTime = DateTime.Now;
-            XDocument xDoc= new XDocument(
+            XDocument xDoc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"), // Declaración XML
                 new XElement("Schema", // Elemento raíz
                     new XElement("Name", tbName.Text),
-                    new XElement("Description", tbDescription.Text),
-                    new XElement("CreationDate", dateTime),
-                    new XElement("LastEditDate", dateTime),
+                    new XElement("Description", ""),
+                    new XElement("CreationDate", dateTime.ToString()),
+                    new XElement("LastEditDate", dateTime.ToString()),
                     new XElement("Nodes"),
                     new XElement("Conections")
                 )
             );
             xDoc.Save(@"..\..\..\Schemes\" + tbName.Text + ".xml");
+
             LoadFolderNames();
+            tbName.Text = "";
+
+        }
+        private async Task UpdateDescription()
+        {
+            DateTime dateTime = DateTime.Now;
+            XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{ViewedButton.GetName()}.xml");
+            xDoc.Descendants("Description").FirstOrDefault().Value = tbDescription.Text;
+            xDoc.Descendants("LastEditDate").FirstOrDefault().Value = dateTime.ToString();
+            xDoc.Save($@"..\..\..\Schemes\{ViewedButton.GetName()}.xml");
+            await LoadXMLInfo(ViewedButton.GetName());
+        }
+
+        private async void tbDescription_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                await UpdateDescription();
+            }
+        }
+
+        private void cPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _active = false;
+            lblNew.Visibility = Visibility.Visible;
+            tbNewScheme.Visibility = Visibility.Collapsed;
             tbName.Text = "";
         }
     }

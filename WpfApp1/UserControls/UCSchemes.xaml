@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              Height="500"
              Width="750">
-    <Grid>
+    <Grid >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
@@ -46,7 +46,8 @@
                     BorderThickness="1.5,0,1.5,1.5"
                     CornerRadius="0,0,7,7"
                     Background="#303036">
-                <Grid>
+                <Grid Name="cPanel"
+                      MouseLeftButtonDown="cPanel_MouseLeftButtonDown">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="420" />
                         <ColumnDefinition />
@@ -56,7 +57,7 @@
                             CornerRadius="5,0,0,5"
                             Margin="5,8,0,5"
                             Background="#383840">
-                        <Grid Margin="5,10">
+                        <Grid Margin="4,10">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition />
@@ -70,7 +71,7 @@
                                 <Grid MouseEnter="Grid_MouseEnter"
                                       MouseLeave="Grid_MouseLeave"
                                       Cursor="Hand"
-                                      MouseDown="Grid_MouseDown">
+                                      MouseDown="Grid_MouseDown" x:Name="btnNewScheme">
                                     <Border x:Name="buttonBorder"
                                             Background="#383840"
                                             CornerRadius="2">
@@ -80,8 +81,8 @@
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center">
                                                 <Border Background="#383840"
-                                                        Width="20"
-                                                        Height="20"
+                                                        Width="22"
+                                                        Height="22"
                                                         CornerRadius="2"
                                                         Padding="3"
                                                         Cursor="">
@@ -91,7 +92,7 @@
                                                 <Label Content="New scheme"
                                                        Foreground="White"
                                                        FontFamily="Cascadia Code"
-                                                       FontSize="17"
+                                                       FontSize="18"
                                                        x:Name="lblNew" />
                                                 <Border HorizontalAlignment="Stretch"
                                                         Visibility="Collapsed"
@@ -105,6 +106,7 @@
                                                         Grid.Row="1"
                                                         x:Name="tbNewScheme">
                                                     <TextBox x:Name="tbName"
+                                                             
                                                              HorizontalAlignment="Left"
                                                              TextWrapping="Wrap"
                                                              Text="{Binding OutlinePlain, Mode=TwoWay, NotifyOnTargetUpdated=True}"
@@ -121,8 +123,7 @@
                                                              FontSize="18"
                                                              TextAlignment="Left"
                                                              KeyDown="tbName_KeyDown"
-                                                             LostFocus="tbName_LostFocus">
-                                                    </TextBox>
+                                                             LostFocus="tbName_LostFocus" />
                                                 </Border>
                                             </StackPanel>
                                         </Grid>
@@ -191,13 +192,12 @@
                                     CornerRadius="2"
                                     Height="100"
                                     Padding="5,7">
-                                <TextBox Text="Este es un esquema para el viajero"
+                                <TextBox Text=""
                                            Foreground="White"
                                            FontFamily="Consolas"
                                            FontSize="12" Background="Transparent" BorderThickness="0"
-                                            TextWrapping="Wrap" TextAlignment="Justify" x:Name="tbDescription">
-
-                                </TextBox>
+                                           TextWrapping="Wrap" TextAlignment="Justify" x:Name="tbDescription"
+                                           KeyDown="tbDescription_KeyDown" />
                             </Border>
                         </StackPanel>
                     </Grid>

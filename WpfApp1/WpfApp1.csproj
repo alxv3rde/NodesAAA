@@ -24,6 +24,7 @@
     <None Remove="Resources\backgroundALT2K.png" />
     <None Remove="Resources\backgroundALT4K.png" />
     <None Remove="Resources\backgroundALT4Kalt.png" />
+    <None Remove="Resources\node-js.png" />
     <None Remove="Standard.png" />
     <None Remove="Step.png" />
     <None Remove="UserControls\Background2.png" />
@@ -53,6 +54,7 @@
     </Resource>
     <Resource Include="Resources\NCommonNode.png" />
     <Resource Include="Resources\NEndNode.png" />
+    <Resource Include="Resources\node-js.png" />
     <Resource Include="Resources\NSelectedCommonNode.gif" />
     <Resource Include="Resources\NSelectedEndNode.gif" />
     <Resource Include="Resources\Play.png" />

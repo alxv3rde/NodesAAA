@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="WpfApp1.UserControls.UCMessage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:local="clr-namespace:WpfApp1.UserControls"
+             mc:Ignorable="d"
+             d:DesignHeight="250"
+             d:DesignWidth="375">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"
+                CornerRadius="10,10,0,0"
+                BorderThickness="1,1,1,0"
+                BorderBrush="black"
+                x:Name="Topbar"
+                Background="#303036">
+            <Grid HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center"
+                  Margin="10,0,5,0">
+                <Button Width="25"
+                        x:Name="btnClose"
+                        Height="25"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource closeButton}"
+                        Click="btnClose_Click">
+                    <fa:IconImage Icon="times"
+                                  Foreground="White"
+                                  Width="17" />
+                </Button>
+            </Grid>
+        </Border>
+        <Border Background="#303036"
+                BorderThickness="1,0,1,1"
+                BorderBrush="Black"
+                Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <Label Content="Are you sure you want to delete"
+                           FontFamily="Cascadia Code"
+                           Foreground="White"
+                           FontSize="17" />
+                    <Label Content="" x:Name="lblDocName"
+                           HorizontalAlignment="Center"
+                           FontFamily="Cascadia Code"
+                           Foreground="White"
+                           FontSize="17" />
+                    
+
+                </StackPanel>
+                <Button Width="70"
+                        Grid.Row="1"
+                        x:Name="btnYes"
+                        Height="25"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource closeButton}"
+                        Click="btnClose_Click"
+                        Content="Yes"
+                        Foreground="White"
+                        FontFamily="Cascadia Code">
+
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

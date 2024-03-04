@@ -29,7 +29,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        XDocument actualScheme = new XDocument();
+        public XDocument ActualScheme = new XDocument();
         public MainWindow()
         {
             InitializeComponent();

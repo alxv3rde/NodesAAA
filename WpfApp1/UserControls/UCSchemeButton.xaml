@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfApp1.UserControls"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
-             d:DesignHeight="38" d:DesignWidth="300">
+             d:DesignHeight="30" d:DesignWidth="300">
     <Grid MouseEnter="Grid_MouseEnter"
           MouseLeave="Grid_MouseLeave" Cursor="Hand"
           MouseDown="Grid_MouseDown"
@@ -24,41 +24,52 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
                     <Border Background="#383840"
-                            Width="20"
-                            Height="20"
+                            Width="22"
+                            Height="22"
                             CornerRadius="2"
                             Padding="3">
                         <fa:IconImage Icon="VectorSquare"
-                                      Foreground="#ffb70b" />
+                                      Foreground="#d89e53" />
                     </Border>
                     <Label Content="Default" 
                            x:Name="lblNombre"
                            Foreground="White"
                            FontFamily="Cascadia Code"
-                           FontSize="17" />
+                           FontSize="18" />
                 </StackPanel>
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
                     <fa:IconImage Icon="Copy"
-                                  Width="12"
+                                  Width="13"
                                   Foreground="White"
                                   Margin="5,0"
                                   Visibility="Hidden"
-                                  x:Name="btnClone" />
+                                  x:Name="btnClone"
+                                  MouseDown="btnClone_MouseDown" Cursor="Hand"
+                                  MouseEnter="btnClone_MouseEnter"
+                                  MouseLeave="btnClone_MouseLeave" IsEnabled="True"/>
                     <fa:IconImage Icon="PencilAlt"
-                                  Width="12"
+                                  Width="13"
                                   Foreground="White"
                                   Margin="5,0" 
                                   Visibility="Hidden" 
-                                  x:Name="btnEdit"/>
+                                  x:Name="btnEdit"
+                                  MouseDown="btnEdit_MouseDown" Cursor="Hand"
+                                  MouseEnter="btnEdit_MouseEnter"
+                                  MouseLeave="btnEdit_MouseLeave"
+                                  IsEnabled="True" />
                     <fa:IconImage Icon="TrashAlt"
-                                  Width="12"
+                                  Width="13"
                                   Foreground="White"
                                   Margin="5,0,5,0" 
                                   Visibility="Hidden" 
-                                  x:Name="btnDelete"/>
+                                  x:Name="btnDelete"
+                                  MouseDown="btnDelete_MouseDown" Cursor="Hand"
+                                  MouseEnter="btnDelete_MouseEnter"
+                                  MouseLeave="btnDelete_MouseLeave"
+                                  IsEnabled="True" />
                 </StackPanel>
             </Grid>
         </Border>
