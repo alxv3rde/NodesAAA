@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -57,11 +58,22 @@ namespace WpfApp1
 
         private void saveChanges()
         {
-            if(tbName.Text != "")
+            StreamReader file = new StreamReader($@"..\..\..\Schemes\lastScheme.txt");
+            string rl = file.ReadLine();
+            file.Dispose();
+            file.Close();
+            XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{rl}.xml");
+            XElement? updateWeight = xDoc.Root.Element("Conections")
+                    .Elements("Line").FirstOrDefault(n => (string)n.Element("ID") == _Line.ID);
+
+            if (tbName.Text != "")
             {
                 try
                 {
                     _Line.ChangeLineValue(Convert.ToDouble(tbName.Text));
+                    updateWeight.Element("Weight").Value = tbName.Text;
+                    xDoc.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+                    xDoc.Save($@"..\..\..\Schemes\{xDoc.Descendants("Name").FirstOrDefault().Value}.xml");
                 }
                 catch { }
                 

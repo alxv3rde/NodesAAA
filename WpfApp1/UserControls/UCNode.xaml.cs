@@ -28,6 +28,15 @@ namespace WpfApp1.UserControls
             type = NodeType.Common;
             ChangeName(name);
             Visited = false;
+
+        }
+        public UCNode(string name, bool selected)
+        {
+            InitializeComponent();
+            type = NodeType.Common;
+            ChangeName(name);
+            Visited = false;
+            this.selected = selected;
         }
         public void DefaultValues()
         {
@@ -38,12 +47,14 @@ namespace WpfApp1.UserControls
         public bool Visited { get; set; }
         public int? VFinal { get; set; }
         public int? VTemp { get; set; }
+        public double PositionX { get; set; }
+        public double PositionY{ get; set; }
         private string name;
         private bool shiftEnabled = false;
         public bool ShiftEnabled { get => shiftEnabled; set => shiftEnabled = value; }
         public List<UCNode> nodes = new List<UCNode>();
         public List<UCLine> lines = new List<UCLine>();
-        private bool selected = false;
+        private bool selected = true;
         private NodeType type;
         public NodeType GetNodeType { get => type; }
         public string GetName { get => name; }
@@ -182,8 +193,12 @@ namespace WpfApp1.UserControls
 
         private void gNode_Loaded(object sender, RoutedEventArgs e)
         {
-            AnimationBehavior.SetSourceUri(n2, new Uri("pack://application:,,,/Resources/NSelectedCommonNode.gif"));
-            selected = true;
+            if (selected)
+            {
+                AnimationBehavior.SetSourceUri(n2, new Uri("pack://application:,,,/Resources/NSelectedCommonNode.gif"));
+                selected = true;
+            }
+            
         }
     }
 }

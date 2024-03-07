@@ -24,11 +24,19 @@ namespace WpfApp1.UserControls
         public UCLine(UCNode n1, UCNode n2)
         {
             InitializeComponent();
+            if (!n1.GetLines.Contains(this) && !n2.GetLines.Contains(this))
+            {
+                n1.AddLine(this);
+                n2.AddLine(this);
+            }
             _Nodes.Add(n1);
             _Nodes.Add(n2);
+            ID = n1.GetName + n2.GetName;
             DrawControl();
         }
         private double value;
+        private string iD;
+        public string ID { get => iD; set => iD = value; }
         bool way = false;
         public bool IsWay { get => way; }
         public bool ConectionIsWay(UCNode n1, UCNode n2)
@@ -74,7 +82,7 @@ namespace WpfApp1.UserControls
             return false;
         }
 
-        private void DrawControl()
+        public void DrawControl()
         {
             double co = Canvas.GetLeft(_Nodes[0]) - Canvas.GetLeft(_Nodes[1]);
             double ca = Canvas.GetTop(_Nodes[0]) - Canvas.GetTop(_Nodes[1]);

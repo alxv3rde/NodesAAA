@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Printing;
@@ -30,12 +31,12 @@ namespace WpfApp1.UserControls
         public UCSchemes()
         {
             InitializeComponent();
-            LoadSchemeNames();
+            LoadSchemeName();
 
         }
         private UCSchemeButton ViewedButton;
         public UCSchemeButton SelectedButton;
-        private async Task LoadSchemeNames()
+        private async Task LoadSchemeName()
         {
             StreamReader file = new StreamReader($@"..\..\..\Schemes\lastScheme.txt");
             string actualSchemeName = file.ReadLine();
@@ -56,6 +57,8 @@ namespace WpfApp1.UserControls
                 if(uCSchemeB.GetName() == actualSchemeName)
                 {
                     uCSchemeB.Selected = true;
+                    uCSchemeB.Viewed = true;
+                    ViewedButton = uCSchemeB;
                     SelectedButton = uCSchemeB;
                     LoadSelected();
                 }
@@ -98,7 +101,7 @@ namespace WpfApp1.UserControls
                 XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
                 lblNameDes.Content = schemeName;
                 tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault()?.Value;
-                lblLastEdit.Content = xDoc.Descendants("LastEditDate").FirstOrDefault()?.Value;
+                lblLastEdit.Content = DateShower(xDoc.Descendants("LastEditDate").FirstOrDefault()?.Value);
             }
             catch
             {
@@ -110,8 +113,9 @@ namespace WpfApp1.UserControls
             try
             {
                 XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{SelectedButton.GetName()}.xml");
+                lblNameDes.Content = xDoc.Descendants("Name").FirstOrDefault()?.Value;
                 tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault()?.Value;
-                lblLastEdit.Content = xDoc.Descendants("LastEditDate").FirstOrDefault()?.Value;
+                lblLastEdit.Content = DateShower(xDoc.Descendants("LastEditDate").FirstOrDefault()?.Value);
             }
             catch { }
         }
@@ -120,30 +124,7 @@ namespace WpfApp1.UserControls
             XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{schemeName}.xml");
         }
 
-        static List<string> GetFileNamesInFolder(string folderPath)
-        {
-            List<string> fileNames = new List<string>();
-
-            try
-            {
-                // Obtener la lista de archivos en la carpeta
-                string[] files = Directory.GetFiles(folderPath);
-
-                // Agregar los nombres de los archivos a la lista
-                foreach (var filePath in files)
-                {
-                    string fileName = System.IO.Path.GetFileName(filePath);
-                    string[] name = fileName.Split('.');
-                    fileNames.Add(name[0]);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al obtener los nombres de los archivos: {ex.Message}");
-            }
-
-            return fileNames;
-        }
+        
         List<UCSchemeButton> buttons = new List<UCSchemeButton>();
 
         private List<(string, string)> _basicInfo = new List<(string, string)>(); // Item1 = name, item2 = description
@@ -237,7 +218,7 @@ namespace WpfApp1.UserControls
             DateTime dateTime = DateTime.Now;
             XDocument xDoc = new XDocument(
                 new XDeclaration("1.0", "utf-8", "yes"), // Declaración XML
-                new XElement("Schema", // Elemento raíz
+                new XElement("Scheme", // Elemento raíz
                     new XElement("Name", tbName.Text),
                     new XElement("Description", ""),
                     new XElement("CreationDate", dateTime.ToString()),
@@ -248,7 +229,7 @@ namespace WpfApp1.UserControls
             );
             xDoc.Save(@"..\..\..\Schemes\" + tbName.Text + ".xml");
 
-            LoadSchemeNames();
+            LoadSchemeName();
             tbName.Text = "";
 
         }
@@ -276,6 +257,34 @@ namespace WpfApp1.UserControls
             lblNew.Visibility = Visibility.Visible;
             tbNewScheme.Visibility = Visibility.Collapsed;
             tbName.Text = "";
+        }
+        private string DateShower(string dateString)
+        {
+            string format = "dd/MM/yyyy hh:mm:ss tt";
+            dateString = dateString.Replace("a. m.", "AM").Replace("p. m.", "PM");
+            DateTime dateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+
+            TimeSpan timeDifference = DateTime.Now - dateTime;
+
+            if (timeDifference.TotalSeconds < 60)
+            {
+                return "Just Now";
+            }
+            else if (timeDifference.TotalMinutes < 60)
+            {
+                int minutes = (int)timeDifference.TotalMinutes;
+                return $"{minutes} {(minutes == 1 ? "minute" : "minutes")} ago";
+            }
+            else if (timeDifference.TotalHours < 24)
+            {
+                int hours = (int)timeDifference.TotalHours;
+                return $"{hours} {(hours == 1 ? "hour" : "hours")} ago";
+            }
+            else
+            {
+                int days = (int)Math.Round(timeDifference.TotalDays);
+                return $"{days} {(days == 1 ? "day" : "days")} ago";
+            }
         }
     }
 }

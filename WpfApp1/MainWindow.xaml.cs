@@ -22,6 +22,7 @@ using WpfApp1.Algorithms.Dijkstra;
 using WpfApp1.Algorithms;
 using System.Xml.Linq;
 using System.IO;
+using WpfApp1.Enums;
 
 namespace WpfApp1
 {
@@ -36,14 +37,96 @@ namespace WpfApp1
             
             InitializeComponent();
             StreamReader file = new StreamReader($@"..\..\..\Schemes\lastScheme.txt");
-            ActualScheme = XDocument.Load($@"..\..\..\Schemes\{file.ReadLine()}.xml");
+            string rl = file.ReadLine();
+            if(rl != "")
+            {
+                ActualScheme = XDocument.Load($@"..\..\..\Schemes\{rl}.xml");
+            }
             file.Dispose();
             file.Close();
             KeyDown += MainWindow_KeyDown;
             KeyUp += MainWindow_KeyUp;
             LoadButtons();
+            LoadXMLOjects();
 
         }
+        private void LoadXMLOjects()
+        {
+            XElement nodesElement = ActualScheme.Root.Element("Nodes");
+            XElement conectionsElement = ActualScheme.Root.Element("Conections");
+            foreach (XElement nodeElement in nodesElement.Elements("Node"))
+            {
+                UCNode node = new UCNode((string)nodeElement.Element("Name"),false);
+                node.PositionX = (double)nodeElement.Element("PositionX");
+                node.PositionY = (double)nodeElement.Element("PositionY");
+                if (nodeElement.Element("Type").Value == NodeType.Common.ToString())
+                    node.NodeTypeToCommon();
+                else node.NodeTypeToEnd();
+                c1.Children.Add(node);
+                _Nodes.Add(node);
+                Canvas.SetLeft(node, node.PositionX);
+                Canvas.SetTop(node, node.PositionY);
+                node.MouseDown += N_MouseDown;
+                node.MouseMove += N_MouseMove;
+                node.MouseUp += N_MouseUp;
+                node.UnSelect();
+            }
+            foreach (XElement lineElement in conectionsElement.Elements("Line"))
+            {
+                UCLine line = new UCLine(_Nodes.Find(x=>x.GetName == (string)lineElement.Element("Node1")) , _Nodes.Find(x => x.GetName == (string)lineElement.Element("Node2")));
+                _Lines.Add(line);
+                c1.Children.Add(line);
+                line.ID = (string)lineElement.Element("ID");
+                line.ChangeLineValue((double)lineElement.Element("Weight"));
+                foreach (var n in _Nodes)
+                {
+                    Canvas.SetZIndex(n, c1.Children.Count + 1);
+                }
+                line.MouseDown += UCLine_MouseDown;
+            }
+        }
+        private async Task SaveNewNodeXML(UCNode node)
+        {
+            XElement? nodeElement = ActualScheme.Root?.Element("Nodes");
+            nodeElement.Add(new XElement("Node",
+                new XElement("Name", node.GetName),
+                new XElement("PositionX", node.PositionX.ToString()),
+                new XElement("PositionY", node.PositionY.ToString()),
+                new XElement("Type", node.GetNodeType.ToString())
+                ));
+            ActualScheme.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+            ActualScheme.Save($@"..\..\..\Schemes\{ActualScheme.Descendants("Name").FirstOrDefault().Value}.xml");
+        }
+
+        private async Task SavePositionNodeXML(UCNode node)
+        {
+            XElement? updatePosition = ActualScheme.Root.Element("Nodes")
+                    .Elements("Node").FirstOrDefault(n => (string)n.Element("Name") == node.GetName);
+            if (updatePosition != null)
+            {
+                updatePosition.Element("PositionX").Value = node.PositionX.ToString();
+                updatePosition.Element("PositionY").Value = node.PositionY.ToString();
+
+                ActualScheme.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+                ActualScheme.Save($@"..\..\..\Schemes\{ActualScheme.Descendants("Name").FirstOrDefault().Value}.xml");
+            }
+            ActualScheme.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+            ActualScheme.Save($@"..\..\..\Schemes\{ActualScheme.Descendants("Name").FirstOrDefault().Value}.xml");
+        }
+
+        private async Task SaveNewLineXML(UCLine line)
+        {
+            XElement? nodeElement = ActualScheme.Root?.Element("Conections");
+            nodeElement.Add(new XElement("Line",
+                new XElement("ID", line.ID),
+                new XElement("Weight", line.GetLineValue.ToString()),
+                new XElement("Node1", line.GetNodes[0].GetName),
+                new XElement("Node2", line.GetNodes[1].GetName)
+                ));
+            ActualScheme.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+            ActualScheme.Save($@"..\..\..\Schemes\{ActualScheme.Descendants("Name").FirstOrDefault().Value}.xml");
+        }
+
         private bool isDraggingSV = false;
         private Point lastMousePosition;
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -96,7 +179,7 @@ namespace WpfApp1
 
         }
 
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        private async void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.LeftShift)
             {
@@ -113,18 +196,19 @@ namespace WpfApp1
                 {
                     if (!_Lines.Exists(x => x.ExistsConection(nodes[0], nodes[1])))
                     {
-                        UCLine UCLine = new UCLine(nodes[0], nodes[1]);
+                        UCLine uCLine = new UCLine(nodes[0], nodes[1]);
 
-                        _Lines.Add(UCLine);
-                        c1.Children.Add(UCLine);
-                        nodes[0].AddLine(UCLine);
-                        nodes[1].AddLine(UCLine);
+                        _Lines.Add(uCLine);
+                        c1.Children.Add(uCLine);
+                        nodes[0].AddLine(uCLine);
+                        nodes[1].AddLine(uCLine);
+                        await SaveNewLineXML(uCLine);
                         foreach (var n in nodes)
                         {
                             Canvas.SetZIndex(n, c1.Children.Count + 1);
                             n.UnSelect();
                         }
-                        UCLine.MouseDown += UCLine_MouseDown;
+                        uCLine.MouseDown += UCLine_MouseDown;
                     }
                 }
             }
@@ -145,9 +229,7 @@ namespace WpfApp1
                     Topmost = true;
 
                 }
-
             }
-
         }
 
         private void UCLine_MouseDown(object sender, MouseButtonEventArgs e)
@@ -180,6 +262,15 @@ namespace WpfApp1
                 }
                 c1.Children.Remove(ucr);
                 _Lines.Remove(ucr);
+                XElement? lineToRemove = ActualScheme.Root.Element("Conections")
+                    .Elements("Line").FirstOrDefault(l => (string)l.Element("ID") == ucr.ID);
+                if (lineToRemove != null)
+                {
+                    lineToRemove.Remove();
+                    ActualScheme.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+                    ActualScheme.Save($@"..\..\..\Schemes\{ActualScheme.Descendants("Name").FirstOrDefault().Value}.xml");
+                }
+
                 if (uCBoxes.Count > 0)
                 {
                     foreach (var ucb in uCBoxes)
@@ -190,8 +281,8 @@ namespace WpfApp1
                 }
             }
         }
-
-        private void c1_MouseDown(object sender, MouseButtonEventArgs e)
+        
+        private async void c1_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.OriginalSource == c1 && e.ClickCount == 2 && e.GetPosition(c1).Y > 30)
             {
@@ -211,12 +302,15 @@ namespace WpfApp1
                     point.Y += (20 - point.Y % 20);
                 Canvas.SetLeft(n, point.X - 30);
                 Canvas.SetTop(n, point.Y - 30);
+                n.PositionX = point.X - 30;
+                n.PositionY = point.Y - 30;
                 n.MouseDown += N_MouseDown;
                 n.MouseMove += N_MouseMove;
                 n.MouseUp += N_MouseUp;
                 UCEditNodeBox uCEditNodeBox = new UCEditNodeBox(n);
                 uCBoxes.Add(uCEditNodeBox);
                 PropertiesBox.Children.Add(uCEditNodeBox);
+                await SaveNewNodeXML(n);
             }
             else if (_Nodes.Count >= 1 && e.OriginalSource == c1)
             {
@@ -241,8 +335,6 @@ namespace WpfApp1
         private bool isDragging = false;
         private void N_MouseUp(object sender, MouseButtonEventArgs e)
         {
-
-
             if (e.ChangedButton == MouseButton.Left)
             {
                 if (!isShiftActive)
@@ -262,6 +354,16 @@ namespace WpfApp1
                 }
                 c1.Children.Remove(ucn);
                 _Nodes.Remove(ucn);
+                XElement? nodeToRemove = ActualScheme.Root.Element("Nodes")
+                    .Elements("Node").FirstOrDefault(node => (string)node.Element("Name") == ucn.GetName);
+                if (nodeToRemove != null)
+                {
+                    nodeToRemove.Remove();
+                    ActualScheme.Descendants("LastEditDate").FirstOrDefault().Value = DateTime.Now.ToString();
+                    ActualScheme.Save($@"..\..\..\Schemes\{ActualScheme.Descendants("Name").FirstOrDefault().Value}.xml");
+                }
+                    
+                
                 if (uCBoxes.Count > 0)
                 {
                     foreach (var ucb in uCBoxes)
@@ -422,18 +524,18 @@ namespace WpfApp1
             count = -1;
         }
 
-        private void btnReset_MouseDown(object sender, MouseButtonEventArgs e)
+        private  void btnReset_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ClearNodesAndLines();
         }
 
-        private void c1_MouseMove(object sender, MouseEventArgs e)
+        private async void c1_MouseMove(object sender, MouseEventArgs e)
         {
             if (_ActiveControl == null)
             {
                 return;
             }
-            var n = (UCNode)_ActiveControl;
+            UCNode n = (UCNode)_ActiveControl;
             if (n.IsSelected)
             {
                 Point point = new Point();
@@ -453,6 +555,9 @@ namespace WpfApp1
 
                     Canvas.SetLeft(_ActiveControl, point.X - 30);
                     Canvas.SetTop(_ActiveControl, point.Y - 30);
+                    n.PositionX = point.X - 30;
+                    n.PositionY = point.Y - 30;
+                    await SavePositionNodeXML(n);
                     List<UCLine> Lines = _Lines.FindAll(x => x.GetNodes.Exists(y => y == _ActiveControl));
                     foreach (var r in Lines)
                     {
@@ -543,11 +648,17 @@ namespace WpfApp1
 
         private async void UCSchemes_SelectMouseDown(object? sender, MouseButtonEventArgs e)
         {
+            _Nodes.Clear();
+            c1.Children.Clear();
+            _Lines.Clear();
+            uCBoxes.Clear();
+            PropertiesBox.Children.Clear();
             ActualScheme = XDocument.Load($@"..\..\..\Schemes\{((UCSchemeButton)sender).GetName()}.xml");
             StreamWriter file = new StreamWriter($@"..\..\..\Schemes\lastScheme.txt");
             file.Write(((UCSchemeButton)sender).GetName());
             file.Flush();
             file.Close();
+            LoadXMLOjects();
 ;        }
 
         private void btnAdyacencia_MouseDown(object sender, MouseButtonEventArgs e)
