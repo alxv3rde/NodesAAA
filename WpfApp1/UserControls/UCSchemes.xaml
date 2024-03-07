@@ -92,7 +92,7 @@
                                                 <Label Content="New scheme"
                                                        Foreground="White"
                                                        FontFamily="Cascadia Code"
-                                                       FontSize="18"
+                                                       FontSize="17"
                                                        x:Name="lblNew" />
                                                 <Border HorizontalAlignment="Stretch"
                                                         Visibility="Collapsed"

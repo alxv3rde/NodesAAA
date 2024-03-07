@@ -1,10 +1,12 @@
 ﻿using FontAwesome.Sharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Printing;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,15 +30,22 @@ namespace WpfApp1.UserControls
         public UCSchemes()
         {
             InitializeComponent();
-            LoadFolderNames();
+            LoadSchemeNames();
 
         }
         private UCSchemeButton ViewedButton;
-        private void LoadFolderNames()
+        public UCSchemeButton SelectedButton;
+        private async Task LoadSchemeNames()
         {
+            StreamReader file = new StreamReader($@"..\..\..\Schemes\lastScheme.txt");
+            string actualSchemeName = file.ReadLine();
+            file.Dispose();
+            file.Close();
             SchemePanel.Children.Clear();
             string folderPath = @"..\..\..\Schemes\";
-            List<string> fileNames = GetFileNamesInFolder(folderPath);
+            //List<string> fileNames = GetFileNamesInFolder(folderPath);
+            List<string> fileNames = Directory.GetFiles(folderPath)
+                                       .Where(file => System.IO.Path.GetExtension(file) == ".xml").Select(System.IO.Path.GetFileNameWithoutExtension).ToList();
             foreach (var item in fileNames)
             {
                 UCSchemeButton uCSchemeB = new UCSchemeButton();
@@ -44,10 +53,21 @@ namespace WpfApp1.UserControls
                 uCSchemeB.SetName(item);
                 SchemePanel.Children.Add(uCSchemeB);
                 uCSchemeB.MouseDown += UCSchemeB_MouseDown;
+                if(uCSchemeB.GetName() == actualSchemeName)
+                {
+                    uCSchemeB.Selected = true;
+                    SelectedButton = uCSchemeB;
+                    LoadSelected();
+                }
             }
+            
         }
+
+        public event MouseButtonEventHandler SelectMouseDown;
+
         private async void UCSchemeB_MouseDown(object sender, MouseButtonEventArgs e)
         {
+                     
             UCSchemeButton button = (UCSchemeButton)sender;
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
             {
@@ -65,11 +85,11 @@ namespace WpfApp1.UserControls
                 {
                     b.Selected = false;
                 }
-
+                SelectedButton = button;
                 button.Selected = true;
+                SelectMouseDown?.Invoke(sender, e);
             }
-
-
+            
         }
         private async Task LoadXMLInfo(string schemeName)
         {
@@ -84,6 +104,16 @@ namespace WpfApp1.UserControls
             {
 
             }
+        }
+        public async Task LoadSelected()
+        {
+            try
+            {
+                XDocument xDoc = XDocument.Load($@"..\..\..\Schemes\{SelectedButton.GetName()}.xml");
+                tbDescription.Text = xDoc.Descendants("Description").FirstOrDefault()?.Value;
+                lblLastEdit.Content = xDoc.Descendants("LastEditDate").FirstOrDefault()?.Value;
+            }
+            catch { }
         }
         public async Task LoadScheme(string schemeName)
         {
@@ -218,7 +248,7 @@ namespace WpfApp1.UserControls
             );
             xDoc.Save(@"..\..\..\Schemes\" + tbName.Text + ".xml");
 
-            LoadFolderNames();
+            LoadSchemeNames();
             tbName.Text = "";
 
         }

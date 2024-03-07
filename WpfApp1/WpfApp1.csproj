@@ -67,8 +67,4 @@
     <Resource Include="Resources\Reset.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Schemes\" />
-  </ItemGroup>
-
 </Project>

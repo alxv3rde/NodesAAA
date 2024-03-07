@@ -117,7 +117,6 @@ namespace WpfApp1.UserControls
         {
             return lblNombre.Content.ToString();
         }
-
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             
@@ -135,14 +134,14 @@ namespace WpfApp1.UserControls
 
         private void btnDelete_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var btnParent = this.Parent as StackPanel;
+            StackPanel? btnParent = this.Parent as StackPanel;
             var res = MessageBox.Show("Are you sure you want to delete "+GetName()+"?","Confirmation",MessageBoxButton.YesNo,MessageBoxImage.Question);
             if(res == MessageBoxResult.Yes)
             {
                 File.Delete($@"..\..\..\Schemes\{GetName()}.xml");
+                
                 btnParent.Children.Remove(this);
             }
-            
             e.Handled = true;
         }
         // desing------------------------------

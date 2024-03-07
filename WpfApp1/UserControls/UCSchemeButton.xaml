@@ -35,7 +35,7 @@
                            x:Name="lblNombre"
                            Foreground="White"
                            FontFamily="Cascadia Code"
-                           FontSize="18" />
+                           FontSize="17"  Height="30" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Center"

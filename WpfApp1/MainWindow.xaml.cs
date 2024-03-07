@@ -21,6 +21,7 @@ using WpfApp1.UserControls;
 using WpfApp1.Algorithms.Dijkstra;
 using WpfApp1.Algorithms;
 using System.Xml.Linq;
+using System.IO;
 
 namespace WpfApp1
 {
@@ -32,8 +33,12 @@ namespace WpfApp1
         public XDocument ActualScheme = new XDocument();
         public MainWindow()
         {
+            
             InitializeComponent();
-
+            StreamReader file = new StreamReader($@"..\..\..\Schemes\lastScheme.txt");
+            ActualScheme = XDocument.Load($@"..\..\..\Schemes\{file.ReadLine()}.xml");
+            file.Dispose();
+            file.Close();
             KeyDown += MainWindow_KeyDown;
             KeyUp += MainWindow_KeyUp;
             LoadButtons();
@@ -532,8 +537,18 @@ namespace WpfApp1
                 OverCanva.Children.Add(uCSchemes);
                 Canvas.SetLeft(uCSchemes, OverCanva.ActualWidth / 2 - 375);
                 Canvas.SetTop(uCSchemes, OverCanva.ActualHeight / 2 - 250);
+                uCSchemes.SelectMouseDown += UCSchemes_SelectMouseDown;
             }
         }
+
+        private async void UCSchemes_SelectMouseDown(object? sender, MouseButtonEventArgs e)
+        {
+            ActualScheme = XDocument.Load($@"..\..\..\Schemes\{((UCSchemeButton)sender).GetName()}.xml");
+            StreamWriter file = new StreamWriter($@"..\..\..\Schemes\lastScheme.txt");
+            file.Write(((UCSchemeButton)sender).GetName());
+            file.Flush();
+            file.Close();
+;        }
 
         private void btnAdyacencia_MouseDown(object sender, MouseButtonEventArgs e)
         {
