@@ -648,6 +648,11 @@ namespace WpfApp1
 
         private async void UCSchemes_SelectMouseDown(object? sender, MouseButtonEventArgs e)
         {
+            foreach (var buton in uCButtons)
+            {
+                buton.EnableButton();
+            }
+            btnEnd.UnableButton();
             _Nodes.Clear();
             c1.Children.Clear();
             _Lines.Clear();

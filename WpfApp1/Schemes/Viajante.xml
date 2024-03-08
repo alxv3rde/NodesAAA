@@ -3,11 +3,11 @@
   <Name>Viajante</Name>
   <Description>Problema del viajante</Description>
   <CreationDate>07/03/2024 05:56:21 a. m.</CreationDate>
-  <LastEditDate>07/03/2024 06:51:24 a. m.</LastEditDate>
+  <LastEditDate>07/03/2024 08:09:09 p. m.</LastEditDate>
   <Nodes>
     <Node>
       <Name>MTY</Name>
-      <PositionX>1210</PositionX>
+      <PositionX>1250</PositionX>
       <PositionY>550</PositionY>
       <Type>Common</Type>
     </Node>
@@ -19,7 +19,7 @@
     </Node>
     <Node>
       <Name>MAT</Name>
-      <PositionX>2090</PositionX>
+      <PositionX>2050</PositionX>
       <PositionY>550</PositionY>
       <Type>Common</Type>
     </Node>
