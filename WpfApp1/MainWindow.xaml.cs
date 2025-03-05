@@ -351,6 +351,9 @@ namespace WpfApp1
                 {
                     c1.Children.Remove(r);
                     _Lines.Remove(r);
+                    XElement? lineToRemove = ActualScheme.Root.Element("Conections")
+                    .Elements("Line").FirstOrDefault(l => (string)l.Element("ID") == r.ID);
+                    if (lineToRemove != null) lineToRemove.Remove();
                 }
                 c1.Children.Remove(ucn);
                 _Nodes.Remove(ucn);

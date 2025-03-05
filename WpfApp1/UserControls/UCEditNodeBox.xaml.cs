@@ -138,15 +138,21 @@ namespace WpfApp1
                 XElement? updateIDLine = xDoc.Root.Element("Conections");
                 foreach (var line in updateIDLine.Elements("Line"))
                 {
+                    UCLine nodeLine = node.lines.FirstOrDefault(x => x.ID == line.Element("ID").Value);
                     if (line.Element("Node1").Value == tempName)
                     {
-                        line.Element("ID").Value = node.GetName + line.Element("Node2").Value;
+                        string id= node.GetName + line.Element("Node2").Value;
+                        line.Element("ID").Value = id;
+                        nodeLine.ID = id;
                         line.Element("Node1").Value = node.GetName;
+                        
                     }
                     else if (line.Element("Node2").Value == tempName)
                     {
-                        line.Element("ID").Value = line.Element("Node1").Value + node.GetName;
+                        string id = line.Element("Node1").Value + node.GetName;
+                        line.Element("ID").Value = id;
                         line.Element("Node2").Value = node.GetName;
+                        nodeLine.ID = id;
                     }
                 }
             }
